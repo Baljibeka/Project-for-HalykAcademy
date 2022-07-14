@@ -1,8 +1,9 @@
-package com.company.FinalProject.DTO;
+package com.company.FinalProject.dto;
 
 import java.time.LocalDate;
 
 public class AuthorDTO {
+    //id, фамилия, имя, отчество, дата рождения, список написанных книг
     private long id;
     private String name;
     private String surname;

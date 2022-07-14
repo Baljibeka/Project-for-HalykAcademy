@@ -1,21 +1,18 @@
-package com.company.FinalProject.DTO;
-
-import com.company.FinalProject.Entity.Author;
-import com.company.FinalProject.Entity.Publisher;
+package com.company.FinalProject.dto;
 
 import java.util.List;
 
 public class BookDTO {
     private long id;
-    private List<Author> authors;
-    private Publisher publisher;
+    private List<AuthorDTO> authors;
+    private PublisherDTO publisher;
     private String title;
     private long number_of_pages;
     private String creationDate;
 
     public BookDTO(){}
 
-    public BookDTO(long id, List<Author> authors, Publisher publisher, String title, long number_of_pages, String creationDate) {
+    public BookDTO(long id, List<AuthorDTO> authors, PublisherDTO publisher, String title, long number_of_pages, String creationDate) {
         this.id = id;
         this.authors = authors;
         this.publisher = publisher;
@@ -32,19 +29,19 @@ public class BookDTO {
         this.id = id;
     }
 
-    public List<Author> getAuthors() {
+    public List<AuthorDTO> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(List<AuthorDTO> authors) {
         this.authors = authors;
     }
 
-    public Publisher getPublisher() {
+    public PublisherDTO getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public void setPublisher(PublisherDTO publisher) {
         this.publisher = publisher;
     }
 
