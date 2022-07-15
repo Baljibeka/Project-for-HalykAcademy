@@ -1,0 +1,318 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "Swagger Bookstore"
+tags:
+- name: "book"
+  description: "Everything about your Books"
+- name: "author"
+  description: "Everything about your Author"
+- name: "provider"
+  description: "Everything about your Provider"
+  
+schemes:
+- "https"
+paths:
+  /book:
+    post:
+      tags:
+      - "book"
+      summary: "Add a new book to the store"
+      description: ""
+      operationId: "addBook"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Author object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Book"
+      responses:
+        "405":
+          description: "Invalid input"
+          
+  /book/{bookID}:
+    get:
+      tags:
+      - "book"
+      summary: "Find book by ID"
+      description: "Returns a single book"
+      operationId: "getBookById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "bookID"
+        in: "path"
+        description: "ID of book to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"
+        "404":
+          description: "Book not found"
+      
+    put:
+      tags:
+      - "book"
+      summary: "Updates a book in the store with form data"
+      description: ""
+      operationId: "updateBookWithForm"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "bookID"
+        in: "path"
+        description: "ID of book that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "title"
+        in: "formData"
+        description: "Updated title of the book"
+        required: false
+        type: "string"
+      - name: "publisher"
+        in: "formData"
+        description: "Updated publisher of the book"
+        required: false
+        type: "integer"
+      - name: "numOfPages"
+        in: "formData"
+        description: "Updated number of pages of the book"
+        required: false
+        type: "integer"
+      - name: "year"
+        in: "formData"
+        description: "Updated year of the book"
+        required: false
+        type: "integer"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Book"
+        "405":
+          description: "Invalid input"
+
+    delete:
+      tags:
+      - "book"
+      summary: "Deletes a book"
+      description: ""
+      operationId: "deleteBook"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "bookID"
+        in: "path"
+        description: "Book id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "Book not found"
+      
+    
+  
+  /author:
+    post:
+      tags:
+      - "author"
+      summary: "Add a new author to the store"
+      description: ""
+      operationId: "addAuthor"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Author object that needs to be added to the store"
+        required: true
+        schema:
+          $ref: "#/definitions/Author"
+      responses:
+        "405":
+          description: "Invalid input"
+    
+  
+          
+  /author/{authorID}:
+    get:
+      tags:
+      - "author"
+      summary: "Find author by ID"
+      description: "Returns a single author"
+      operationId: "getAuthorById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorID"
+        in: "path"
+        description: "ID of author to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Author"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Author not found"
+      
+    put:
+      tags:
+      - "author"
+      summary: "Updates an author in the store with form data"
+      description: ""
+      operationId: "updateAuthorWithForm"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "authorID"
+        in: "path"
+        description: "ID of author that needs to be updated"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "name"
+        in: "formData"
+        description: "Updated name of the author"
+        required: false
+        type: "string"
+      - name: "surname"
+        in: "formData"
+        description: "Updated surname of the author"
+        required: false
+        type: "string"
+      - name: "dateOfBirth"
+        in: "formData"
+        description: "Updated date of birth of the author"
+        required: false
+        type: "string"
+        format: "date"
+      - name: "bookList"
+        in: "formData"
+        description: "Updated booklist of the author"
+        required: false
+        type: array
+        items:
+          type: "integer"
+      responses:
+        "405":
+          description: "Invalid input"
+
+    delete:
+      tags:
+      - "author"
+      summary: "Deletes an author"
+      description: ""
+      operationId: "deleteAuthor"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "api_key"
+        in: "header"
+        required: false
+        type: "string"
+      - name: "authorID"
+        in: "path"
+        description: "Author id to delete"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "404":
+          description: "Author not found"
+ 
+  
+definitions:
+  Author:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      surname:
+        type: "string"
+        format: "byte"
+      name:
+        type: "string"
+        format: "byte"
+      patronymic:
+        type: "string"
+        format: "byte"
+      dateOfBirth:
+        type: "string"
+        format: "date"
+      bookList:
+        type: "array"
+        items:
+          $ref: "#/definitions/Book"
+          
+  Publisher:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        format: "byte"
+      bookList:
+        type: "array"
+        items:
+          $ref: "#/definitions/Book"    
+          
+  Book:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      price:
+        type: "number"
+        format: "double"
+      authorList:
+        type: "array"
+        items:
+          $ref: "#/definitions/Author"
+      publisher:
+        $ref: "#/definitions/Publisher"
+      title:
+        type: "integer"
+        format: "int64"
+      numOfPages:
+        type: "integer"
+        format: "int64"
+      year:
+        type: "integer"
+        format: "int64"
+      
+ 
+
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
