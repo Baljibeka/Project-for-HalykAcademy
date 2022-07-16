@@ -1,4 +1,4 @@
-package com.company.FinalProject.providers.Implementation;
+package com.company.FinalProject.providers.implementation;
 
 import com.company.FinalProject.dto.AuthorDTO;
 import com.company.FinalProject.providers.AuthorProvider;
