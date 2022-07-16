@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface BookProvider {
     List<BookDTO> getAll();
+    List<BookDTO> findByName(String name);
 }

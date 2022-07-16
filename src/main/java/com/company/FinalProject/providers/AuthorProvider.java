@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface AuthorProvider {
     List<AuthorDTO> getAll();
+    List<AuthorDTO> findByFIO(String name);
 }

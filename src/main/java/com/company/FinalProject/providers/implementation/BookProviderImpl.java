@@ -11,9 +11,20 @@ public class BookProviderImpl implements BookProvider {
     public BookProviderImpl(List<BookDTO> bookList) {
         this.bookList=bookList;
     }
-
+    public BookProviderImpl(){}
     @Override
     public List<BookDTO> getAll() {
         return this.bookList;
+    }
+
+    @Override
+    public List<BookDTO> findByName(String name) {
+        List<BookDTO> newList=null;
+        for(BookDTO bookDTO :this.bookList){
+            if(bookDTO.getTitle().matches("(.*)" + name + "(*.)")){
+                newList.add(bookDTO);
+            }
+        }
+        return newList;
     }
 }

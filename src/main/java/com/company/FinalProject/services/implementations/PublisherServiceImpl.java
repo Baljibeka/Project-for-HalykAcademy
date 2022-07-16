@@ -1,6 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.providers.implementation.PublisherProviderImpl;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.PublisherService;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -8,10 +9,11 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import java.util.List;
 import java.util.Optional;
 
-public class PublisherServiceImpl implements PublisherService {
+public class PublisherServiceImpl extends PublisherProviderImpl implements PublisherService {
     private final PublisherRepository publisherRepo;
 
     public PublisherServiceImpl(PublisherRepository publisherRepo) {
+        super();
         this.publisherRepo = publisherRepo;
     }
 
@@ -46,6 +48,11 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public List<PublisherDTO> findByName(String name) {
-        return ;
+        return super.findByName(name);
+    }
+
+    @Override
+    public List<PublisherDTO> getAll() {
+        return super.getAll();
     }
 }

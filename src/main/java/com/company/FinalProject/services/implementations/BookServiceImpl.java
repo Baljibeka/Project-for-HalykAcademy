@@ -1,16 +1,20 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.BookDTO;
+import com.company.FinalProject.providers.BookProvider;
+import com.company.FinalProject.providers.implementation.BookProviderImpl;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.BookService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
+import java.util.List;
 import java.util.Optional;
 
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl extends BookProviderImpl implements BookService {
     private final BookRepository bookRepo;
 
     public BookServiceImpl(BookRepository bookRepo) {
+        super();
         this.bookRepo = bookRepo;
     }
 
@@ -44,5 +48,16 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<BookDTO> findByIdBook(long id) {
         return bookRepo.findById(id);
+    }
+
+    @Override
+    public List<BookDTO> getAll() {
+        return super.getAll();
+    }
+
+
+    @Override
+    public List<BookDTO> findByName(String name) {
+        return super.findByName(name);
     }
 }
