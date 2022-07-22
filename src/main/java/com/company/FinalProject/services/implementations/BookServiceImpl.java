@@ -1,16 +1,16 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.BookDTO;
-import com.company.FinalProject.providers.BookProvider;
-import com.company.FinalProject.providers.implementation.BookProviderImpl;
+import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.BookService;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public class BookServiceImpl extends BookProviderImpl implements BookService {
+@Service
+public class BookServiceImpl implements BookService {
     private final BookRepository bookRepo;
 
     public BookServiceImpl(BookRepository bookRepo) {
@@ -19,26 +19,27 @@ public class BookServiceImpl extends BookProviderImpl implements BookService {
     }
 
     @Override
-    public BookDTO createBook(BookDTO bookDTO) {
-        return bookRepo.save(bookDTO);
+    public Book create(Book book) {
+        return bookRepo.save(book);
     }
 
     @Override
-    public void deleteBook(long id) {
+    public void delete(long id) {
         bookRepo.deleteById(id);
     }
 
     @Override
-    public BookDTO updateBook(BookDTO bookDTO) {
-        BookDTO existingBook = null;
+    public Book update(Book book) {
+        Book existingBook = null;
         try {
-            existingBook = bookRepo.findById(bookDTO.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingBook.setTitle(bookDTO.getTitle());
-            existingBook.setNumber_of_pages(bookDTO.getNumber_of_pages());
-            existingBook.setCreationDate(bookDTO.getCreationDate());
-            existingBook.setPublisher(bookDTO.getPublisher());
-            existingBook.setAuthors(bookDTO.getAuthors());
-            bookRepo.save(existingBook);
+            existingBook = bookRepo.findById(book.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+            existingBook.setName(book.getName());
+            existingBook.setNumberOfPages(book.getNumberOfPages());
+            existingBook.setYearOfIssue(book.getYearOfIssue());
+            existingBook.setPublisher(book.getPublisher());
+            existingBook.setAuthorList(book.getAuthorList());
+            existingBook.setPrice(book.getPrice());
+            bookRepo.save(book);
         } catch (ChangeSetPersister.NotFoundException e) {
             e.printStackTrace();
         }
@@ -46,18 +47,17 @@ public class BookServiceImpl extends BookProviderImpl implements BookService {
     }
 
     @Override
-    public Optional<BookDTO> findByIdBook(long id) {
+    public Optional<Book> findById(long id) {
         return bookRepo.findById(id);
     }
 
     @Override
-    public List<BookDTO> getAll() {
-        return super.getAll();
+    public List<Book> getAll() {
+        return bookRepo.findAll();
     }
 
-
     @Override
-    public List<BookDTO> findByName(String name) {
-        return super.findByName(name);
+    public List<Book> getByNameContaining(String name) {
+        return  bookRepo.findByNameIsContainingIgnoreCase(name);
     }
 }

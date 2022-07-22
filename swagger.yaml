@@ -229,7 +229,7 @@ paths:
       - "author"
       summary: "Deletes an author"
       description: ""
-      operationId: "deleteAuthor"
+      operationId: "delete"
       produces:
       - "application/json"
       parameters:

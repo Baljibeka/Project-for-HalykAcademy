@@ -1,20 +1,15 @@
 package com.company.FinalProject.dto;
 
+import com.company.FinalProject.entity.Book;
+
 import java.util.List;
 
 public class PublisherDTO {
-    //id, название, список изданных книг
     private long id;
+
     private String name;
-    private List<BookDTO> books;
 
-    public PublisherDTO(){}
-
-    public PublisherDTO(long id, String name, List<BookDTO> books) {
-        this.id = id;
-        this.name = name;
-        this.books = books;
-    }
+    private List<Book> publishedBooks;
 
     public long getId() {
         return id;
@@ -32,11 +27,11 @@ public class PublisherDTO {
         this.name = name;
     }
 
-    public List<BookDTO> getBooks() {
-        return books;
+    public List<Book> getPublishedBooks() {
+        return publishedBooks;
     }
 
-    public void setBooks(List<BookDTO> books) {
-        this.books = books;
+    public void setPublishedBooks(List<Book> publishedBooks) {
+        this.publishedBooks = publishedBooks;
     }
 }

@@ -1,25 +1,77 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.services.PublisherService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@RestController
+@RequestMapping("/publishers")
 public class PublisherController {
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
     private PublisherService publisherService;
+    @Autowired
     public PublisherController(PublisherService publisherService){
-        this.publisherService=publisherService;
+        this.publisherService= publisherService;
     }
-    public PublisherDTO createPublisher(PublisherDTO publisherDTO){
-        return publisherService.createPublisher(publisherDTO);
+
+    @GetMapping("/publisher")
+    public List<PublisherDTO> getAll(){
+        List<Publisher> publishers=publisherService.getAll();
+        return publishers.stream()
+                .map(this::convertPublisherToDto)
+                .collect(Collectors.toList());
     }
-    public void deletePublisher(long id){
-        publisherService.deletePublisher(id);
+    @GetMapping("/publisher/{publisherID}")
+    private Optional<PublisherDTO> getPublisherById(@PathVariable("publisherID") long id)
+    {
+        Optional<Publisher> publishers=publisherService.findById(id);
+        return publishers.map(this::convertPublisherToDto);
     }
-    public PublisherDTO updatePublisher(PublisherDTO publisherDTO){
-        return publisherService.updatePublisher(publisherDTO);
+    @DeleteMapping("/publisher/{publisherID}")
+    private void deletePublisherById(@PathVariable("publisherID") long id)
+    {
+        publisherService.delete(id);
     }
-    public Optional<PublisherDTO> findByIdPublisher(long id){
-        return publisherService.findByIdPublisher(id);
+    @PostMapping("/publisher")
+    private PublisherDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
+    {
+        Publisher publisher = convertToEntity(publisherDTO);
+        Publisher publisherCreated = publisherService.create(publisher);
+        return convertPublisherToDto(publisherCreated);
+    }
+    @PutMapping("/publisher/{publisherID}")
+    private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {
+        if(!Objects.equals(id, publisherDTO.getId())){
+            throw new IllegalArgumentException("IDs don't match");
+        }
+        Publisher publisher = convertToEntity(publisherDTO);
+        publisherService.update(publisher);
+    }
+
+
+    private PublisherDTO convertPublisherToDto(Publisher publisher) {
+        PublisherDTO publisherDTO = modelMapper.map(publisher, PublisherDTO.class);
+        publisherDTO.setName(publisher.getName());
+        publisherDTO.setId(publisher.getId());
+        publisherDTO.setPublishedBooks(publisher.getPublishedBooksList());
+        return publisherDTO;
+    }
+
+    public Publisher convertToEntity(PublisherDTO publisherDTO) {
+        Publisher publisher = new Publisher();
+        publisher.setName(publisherDTO.getName());
+        publisher.setId(publisherDTO.getId());
+        publisher.setPublishedBooksList(publisherDTO.getPublishedBooks());
+        return publisher;
     }
 }

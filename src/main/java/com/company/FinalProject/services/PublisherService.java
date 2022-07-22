@@ -2,14 +2,16 @@ package com.company.FinalProject.services;
 
 
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.entity.Publisher;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
 public interface PublisherService {
-    public PublisherDTO createPublisher(PublisherDTO publisherDTO);
-    public void deletePublisher(long id);
-    public PublisherDTO updatePublisher(PublisherDTO publisherDTO);
-    public Optional<PublisherDTO> findByIdPublisher(long id);
-    public List<PublisherDTO> findByName(String name);
+    public List<Publisher> getAll();
+    public Publisher create(Publisher publisher);
+    public void delete(long id);
+    public void update(Publisher publisher);
+    public Optional<Publisher> findById(long id);
+    List<Publisher> getByNameContaining(String name);
 }

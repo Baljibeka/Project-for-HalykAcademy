@@ -1,7 +1,12 @@
 package com.company.FinalProject.repo;
 
-import com.company.FinalProject.dto.PublisherDTO;
-import org.springframework.data.repository.CrudRepository;
+import com.company.FinalProject.entity.Publisher;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PublisherRepository extends CrudRepository<PublisherDTO, Long> {
+import java.util.List;
+
+@Repository
+public interface PublisherRepository extends JpaRepository<Publisher, Long> {
+    List<Publisher> findByNameIsContainingIgnoreCase(String name);
 }

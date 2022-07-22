@@ -1,44 +1,42 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.providers.AuthorProvider;
-import com.company.FinalProject.providers.implementation.AuthorProviderImpl;
+import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.services.AuthorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-public class AuthorServiceImpl extends AuthorProviderImpl implements AuthorService {
+@Service
+public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepo;
 
+    @Autowired
     public AuthorServiceImpl(AuthorRepository authorRepo) {
-        super();
         this.authorRepo = authorRepo;
     }
 
-    @Override
-    public AuthorDTO createAuthor(AuthorDTO authorDTO) {
-        return authorRepo.save(authorDTO);
+
+    public Author create(Author author) {
+        return authorRepo.save(author);
     }
 
-    @Override
-    public void deleteAuthor(long id) {
+    public void delete(long id) {
         authorRepo.deleteById(id);
     }
 
-    @Override
-    public AuthorDTO updateAuthor(AuthorDTO authorDTO) {
-        AuthorDTO existingAuthor = null;
+    public Author update(Author author) {
+
+        Author existingAuthor = null;
         try {
-            existingAuthor = authorRepo.findById(authorDTO.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingAuthor.setName(authorDTO.getName());
-            existingAuthor.setSurname(authorDTO.getSurname());
-            existingAuthor.setPatronymic(authorDTO.getPatronymic());
-            existingAuthor.setDateOfBirth(authorDTO.getDateOfBirth());
-            existingAuthor.setNumberOfBooks(authorDTO.getNumberOfBooks());
-            authorRepo.save(existingAuthor);
+            existingAuthor = authorRepo.findById(author.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
+            existingAuthor.setName(author.getName());
+            existingAuthor.setSurname(author.getSurname());
+            existingAuthor.setPatronymic(author.getPatronymic());
+            existingAuthor.setDateOfBirth(author.getDateOfBirth());
+            authorRepo.save(author);
         } catch (ChangeSetPersister.NotFoundException e) {
             e.printStackTrace();
         }
@@ -46,17 +44,15 @@ public class AuthorServiceImpl extends AuthorProviderImpl implements AuthorServi
     }
 
     @Override
-    public Optional<AuthorDTO> findByIdAuthor(long id) {
+    public Optional<Author> findById(long id) {
         return authorRepo.findById(id);
     }
 
     @Override
-    public List<AuthorDTO> getAll() {
-        return super.getAll();
+    public List<Author> findByFIO(String name) {
+        return authorRepo.findByNameContaining(name);
     }
-
-    @Override
-    public List<AuthorDTO> findByFIO(String name){
-        return super.findByFIO(name);
+    public List<Author> getAll(){
+        return authorRepo.findAll();
     }
 }

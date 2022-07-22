@@ -1,25 +1,18 @@
 package com.company.FinalProject.dto;
 
+import com.company.FinalProject.entity.Author;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public class BookDTO {
     private long id;
-    private List<AuthorDTO> authors;
-    private PublisherDTO publisher;
-    private String title;
-    private long number_of_pages;
-    private String creationDate;
-
-    public BookDTO(){}
-
-    public BookDTO(long id, List<AuthorDTO> authors, PublisherDTO publisher, String title, long number_of_pages, String creationDate) {
-        this.id = id;
-        this.authors = authors;
-        this.publisher = publisher;
-        this.title = title;
-        this.number_of_pages = number_of_pages;
-        this.creationDate = creationDate;
-    }
+    private int price;
+    private List<Author> authorList;
+    private String publisher;
+    private String name;
+    private int numberOfPages;
+    private LocalDate yearOfIssue;
 
     public long getId() {
         return id;
@@ -29,43 +22,51 @@ public class BookDTO {
         this.id = id;
     }
 
-    public List<AuthorDTO> getAuthors() {
-        return authors;
+    public int getPrice() {
+        return price;
     }
 
-    public void setAuthors(List<AuthorDTO> authors) {
-        this.authors = authors;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public PublisherDTO getPublisher() {
+    public List<Author> getAuthorList() {
+        return authorList;
+    }
+
+    public void setAuthorList(List<Author> authorList) {
+        this.authorList = authorList;
+    }
+
+    public String getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(PublisherDTO publisher) {
+    public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getNumber_of_pages() {
-        return number_of_pages;
+    public int getNumberOfPages() {
+        return numberOfPages;
     }
 
-    public void setNumber_of_pages(long number_of_pages) {
-        this.number_of_pages = number_of_pages;
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public LocalDate getYearOfIssue() {
+        return yearOfIssue;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setYearOfIssue(LocalDate yearOfIssue) {
+        this.yearOfIssue = yearOfIssue;
     }
 }
