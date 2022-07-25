@@ -19,51 +19,29 @@ public class Book {
             strategy = GenerationType.SEQUENCE,
             generator = "book_sequence"
     )
+    @Column(name="book_id")
     private long id;
     @Column(name="price")
     private int price;
-    @ManyToMany(mappedBy = "authorsBooksList")
+    @ManyToMany
+    @JoinTable(
+            name = "authors_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authorList;
-    @Column(name="publisher")
-    private String publisher;
+    @ManyToOne
+    @JoinColumn(name = "publisher_id")
+    private Publisher publisher;
     @Column(name="name")
     private String name;
     @Column(name="number_of_pages")
     private int numberOfPages;
     @Column(name="year_of_issue")
     private LocalDate yearOfIssue;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
     public Book() {}
-
-    public Book(int price,
-                List<Author> authorList,
-                String publisher,
-                String name,
-                int numberOfPages,
-                LocalDate yearOfIssue) {
-        this.price = price;
-        this.authorList = authorList;
-        this.publisher = publisher;
-        this.name = name;
-        this.numberOfPages = numberOfPages;
-        this.yearOfIssue = yearOfIssue;
-    }
-
-    public Book(long id,
-                int price,
-                List<Author> authorList,
-                String publisher,
-                String name,
-                int numberOfPages,
-                LocalDate yearOfIssue) {
-        this.id = id;
-        this.price = price;
-        this.authorList = authorList;
-        this.publisher = publisher;
-        this.name = name;
-        this.numberOfPages = numberOfPages;
-        this.yearOfIssue = yearOfIssue;
-    }
 
     public long getId() {
         return id;
@@ -89,11 +67,11 @@ public class Book {
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
 
@@ -119,5 +97,13 @@ public class Book {
 
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

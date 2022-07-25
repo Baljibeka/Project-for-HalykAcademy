@@ -8,8 +8,16 @@ import java.util.List;
 @Table()
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sequence")
-    @SequenceGenerator(name = "author_sequence", sequenceName = "author_sequence", allocationSize = 1)
+    @SequenceGenerator(
+            name="author_sequence",
+            sequenceName="author_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "author_sequence"
+    )
+    @Column(name="author_id")
     private Long id;
     @Column(name = "surname")
     private String surname;
@@ -19,13 +27,15 @@ public class Author {
     private String patronymic;
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
-
     @ManyToMany
     @JoinTable(
             name = "authors_book",
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "genre_id")
+    private Genre genre;
 
     public Author() {
     }
@@ -102,5 +112,17 @@ public class Author {
 
     public void setAuthorsBooksList(List<Book> authorsBooksList) {
         this.authorsBooksList = authorsBooksList;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

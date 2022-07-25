@@ -1,6 +1,8 @@
 package com.company.FinalProject.controllers;
 
+import com.company.FinalProject.dto.AuthorDTO;
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.services.PublisherService;
 import org.modelmapper.ModelMapper;
@@ -37,6 +39,16 @@ public class PublisherController {
         Optional<Publisher> publishers=publisherService.findById(id);
         return publishers.map(this::convertPublisherToDto);
     }
+
+    @GetMapping("/publisher/{publisherName}")
+    private List<PublisherDTO> getPublisherByName(@PathVariable("publisherName") String name) {
+        List<Publisher> publishers = publisherService.getByNameContaining(name);
+        return publishers
+                .stream()
+                .map(this::convertPublisherToDto)
+                .collect(Collectors.toList());
+    }
+
     @DeleteMapping("/publisher/{publisherID}")
     private void deletePublisherById(@PathVariable("publisherID") long id)
     {

@@ -27,8 +27,7 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepo.deleteById(id);
     }
 
-    public Author update(Author author) {
-
+    public void update(Author author) {
         Author existingAuthor = null;
         try {
             existingAuthor = authorRepo.findById(author.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -40,14 +39,13 @@ public class AuthorServiceImpl implements AuthorService {
         } catch (ChangeSetPersister.NotFoundException e) {
             e.printStackTrace();
         }
-        return existingAuthor;
     }
 
     @Override
     public Optional<Author> findById(long id) {
         return authorRepo.findById(id);
     }
-
+ // добавить фио
     @Override
     public List<Author> findByFIO(String name) {
         return authorRepo.findByNameContaining(name);

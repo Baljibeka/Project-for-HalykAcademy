@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping
+@RequestMapping("/authors")
 public class AuthorController {
     @Autowired
     private AuthorService authorService;

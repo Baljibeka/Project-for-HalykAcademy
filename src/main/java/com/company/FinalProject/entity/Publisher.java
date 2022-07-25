@@ -17,6 +17,7 @@ public class Publisher {
             strategy = GenerationType.SEQUENCE,
             generator = "publisher_sequence"
     )
+    @Column(name="publisher_id")
     private long id;
     @Column(name="name")
     private String name;

@@ -1,6 +1,8 @@
 package com.company.FinalProject.dto;
 
 import com.company.FinalProject.entity.Author;
+import com.company.FinalProject.entity.Genre;
+import com.company.FinalProject.entity.Publisher;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,10 +11,11 @@ public class BookDTO {
     private long id;
     private int price;
     private List<Author> authorList;
-    private String publisher;
+    private Publisher publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
+    private Genre genre;
 
     public long getId() {
         return id;
@@ -38,11 +41,11 @@ public class BookDTO {
         this.authorList = authorList;
     }
 
-    public String getPublisher() {
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
     }
 
@@ -68,5 +71,13 @@ public class BookDTO {
 
     public void setYearOfIssue(LocalDate yearOfIssue) {
         this.yearOfIssue = yearOfIssue;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 }

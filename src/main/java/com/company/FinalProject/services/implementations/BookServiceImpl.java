@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book update(Book book) {
+    public void update(Book book) {
         Book existingBook = null;
         try {
             existingBook = bookRepo.findById(book.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -43,7 +43,6 @@ public class BookServiceImpl implements BookService {
         } catch (ChangeSetPersister.NotFoundException e) {
             e.printStackTrace();
         }
-        return existingBook;
     }
 
     @Override

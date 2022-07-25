@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface AuthorService {
     public Author create(Author author);
     public void delete(long id);
-    public Author update(Author author);
+    public void update(Author author);
     public Optional<Author> findById(long id);
     List<Author> findByFIO(String name);
     List<Author> getAll();

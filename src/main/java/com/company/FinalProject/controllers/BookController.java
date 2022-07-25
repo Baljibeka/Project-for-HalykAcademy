@@ -1,6 +1,8 @@
 package com.company.FinalProject.controllers;
 
+import com.company.FinalProject.dto.AuthorDTO;
 import com.company.FinalProject.dto.BookDTO;
+import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.services.BookService;
 import org.modelmapper.ModelMapper;
@@ -38,11 +40,21 @@ public class BookController {
         return books.map(this::convertBookToDto);
     }
 
+    @GetMapping("/book/{bookName}")
+    private List<BookDTO> getBookByName(@PathVariable("bookName") String name) {
+        List<Book> books = bookService.getByNameContaining(name);
+        return books
+                .stream()
+                .map(this::convertBookToDto)
+                .collect(Collectors.toList());
+    }
+
     @DeleteMapping("/book/{bookID}")
     private void deleteBookById(@PathVariable("bookID") long id)
     {
         bookService.delete(id);
     }
+
     @PostMapping("/book")
     private BookDTO saveBook(@RequestBody BookDTO bookDTO){
         Book book = convertToEntity(bookDTO);
