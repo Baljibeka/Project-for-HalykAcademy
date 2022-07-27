@@ -1,6 +1,7 @@
 package com.company.FinalProject.dto;
 
 import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.entity.Publisher;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class PublisherDTO {
 
     private String name;
 
-    private List<Book> publishedBooks;
+    private List<BookDTO> publishedBooks;
 
     public long getId() {
         return id;
@@ -27,11 +28,19 @@ public class PublisherDTO {
         this.name = name;
     }
 
-    public List<Book> getPublishedBooks() {
+    public List<BookDTO> getPublishedBooks() {
         return publishedBooks;
     }
 
-    public void setPublishedBooks(List<Book> publishedBooks) {
+    public void setPublishedBooks(List<BookDTO> publishedBooks) {
         this.publishedBooks = publishedBooks;
+    }
+
+    public Publisher convertToEntity() {
+        Publisher publisher = new Publisher();
+        publisher.setName(this.getName());
+        publisher.setId(this.getId());
+        publisher.setPublishedBooksList(this.getPublishedBooks().stream().map(BookDTO::convertToEntity).toList());
+        return publisher;
     }
 }

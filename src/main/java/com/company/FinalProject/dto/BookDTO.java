@@ -1,6 +1,7 @@
 package com.company.FinalProject.dto;
 
 import com.company.FinalProject.entity.Author;
+import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.entity.Genre;
 import com.company.FinalProject.entity.Publisher;
 
@@ -10,12 +11,12 @@ import java.util.List;
 public class BookDTO {
     private long id;
     private int price;
-    private List<Author> authorList;
-    private Publisher publisher;
+    private List<AuthorDTO> authorList;
+    private PublisherDTO publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
-    private Genre genre;
+    private List<GenreDTO> genreList;
 
     public long getId() {
         return id;
@@ -33,19 +34,19 @@ public class BookDTO {
         this.price = price;
     }
 
-    public List<Author> getAuthorList() {
+    public List<AuthorDTO> getAuthorList() {
         return authorList;
     }
 
-    public void setAuthorList(List<Author> authorList) {
+    public void setAuthorList(List<AuthorDTO> authorList) {
         this.authorList = authorList;
     }
 
-    public Publisher getPublisher() {
+    public PublisherDTO getPublisher() {
         return publisher;
     }
 
-    public void setPublisher(Publisher publisher) {
+    public void setPublisher(PublisherDTO publisher) {
         this.publisher = publisher;
     }
 
@@ -73,11 +74,24 @@ public class BookDTO {
         this.yearOfIssue = yearOfIssue;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<GenreDTO> getGenreList() {
+        return genreList;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setGenreList(List<GenreDTO> genreList) {
+        this.genreList = genreList;
+    }
+
+    public Book convertToEntity() {
+        Book book = new Book();
+        book.setName(this.getName());
+        book.setPublisher(this.getPublisher().convertToEntity());
+        book.setPrice(this.getPrice());
+        book.setYearOfIssue(this.getYearOfIssue());
+        book.setId(this.getId());
+        book.setBooksGenresList(this.getGenreList().stream().map(GenreDTO::convertToEntity).toList());
+        book.setAuthorList(this.getAuthorList().stream().map(AuthorDTO::convertToEntity).toList());
+        book.setNumberOfPages(this.getNumberOfPages());
+        return book;
     }
 }

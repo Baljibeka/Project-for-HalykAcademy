@@ -29,14 +29,14 @@ public class AuthorController {
     public List<AuthorDTO> getAll() {
         List<Author> authors = authorService.getAll();
         return authors.stream()
-                .map(this::convertAuthorToDto)
+                .map(item->item.convertToDto(true))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/author/{authorID}")
     private Optional<AuthorDTO> getAuthorById(@PathVariable("authorID") long id) {
         Optional<Author> authors = authorService.findById(id);
-        return authors.map(this::convertAuthorToDto);
+        return authors.map(it->it.convertToDto(true));
     }
 
     @GetMapping("/author/{authorName}")
@@ -44,7 +44,7 @@ public class AuthorController {
         List<Author> authors = authorService.findByFIO(name);
         return authors
                 .stream()
-                .map(this::convertAuthorToDto)
+                .map(it->it.convertToDto(true))
                 .collect(Collectors.toList());
     }
 
@@ -54,10 +54,10 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    private AuthorDTO saveBook(@RequestBody AuthorDTO authorDTO) {
-        Author author = convertToEntity(authorDTO);
+    private AuthorDTO save(@RequestBody AuthorDTO authorDTO) {
+        Author author = authorDTO.convertToEntity();
         Author authorCreated = authorService.create(author);
-        return convertAuthorToDto(authorCreated);
+        return authorCreated.convertToDto(true);
     }
 
     @PutMapping("/author/{authorID}")
@@ -65,30 +65,8 @@ public class AuthorController {
         if (!Objects.equals(id, authorDTO.getId())) {
             throw new IllegalArgumentException("IDs don't match");
         }
-        Author author = convertToEntity(authorDTO);
+        Author author = authorDTO.convertToEntity();
         authorService.update(author);
     }
 
-    private AuthorDTO convertAuthorToDto(Author author) {
-        AuthorDTO authorDTO = modelMapper.map(author, AuthorDTO.class);
-        authorDTO.setName(author.getName());
-        authorDTO.setSurname(author.getSurname());
-        authorDTO.setId(author.getId());
-        authorDTO.setAuthorsBooksList(author.getAuthorsBooksList());
-        authorDTO.setDateOfBirth(author.getDateOfBirth());
-
-        return authorDTO;
-    }
-
-    public Author convertToEntity(AuthorDTO authorDTO) {
-        Author author = new Author();
-        author.setName(authorDTO.getName());
-        author.setId(authorDTO.getId());
-        author.setAuthorsBooksList(authorDTO.getAuthorsBooksList());
-        author.setPatronymic(authorDTO.getPatronymic());
-        author.setSurname(authorDTO.getSurname());
-        author.setDateOfBirth(authorDTO.getDateOfBirth());
-
-        return author;
-    }
 }

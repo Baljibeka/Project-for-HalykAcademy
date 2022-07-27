@@ -27,9 +27,9 @@ public class GenreController {
 
     @PostMapping("/genre")
     public GenreDTO create(@RequestBody GenreDTO genreDTO){
-        Genre genre = convertToEntity(genreDTO);
+        Genre genre = genreDTO.convertToEntity();
         Genre genreCreated = genreService.create(genre);
-        return convertToDto(genreCreated);
+        return genreCreated.convertToDto();
     }
     @DeleteMapping("/genre/{genreID}")
     public void delete(@PathVariable("genreID") long id){
@@ -40,27 +40,15 @@ public class GenreController {
         if(!Objects.equals(id, genreDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Genre genre = convertToEntity(genreDTO);
+        Genre genre = genreDTO.convertToEntity();
         genreService.update(genre);
     }
     @GetMapping("/genre")
     public List<GenreDTO> getAll(){
         List<Genre> genres = genreService.getAll();
         return genres.stream()
-                .map(this::convertToDto)
+                .map(Genre::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    private GenreDTO convertToDto(Genre genre) {
-        GenreDTO genreDTO = modelMapper.map(genre, GenreDTO.class);
-        genreDTO.setName(genre.getName());
-        genreDTO.setId(genre.getId());
-        return genreDTO;
-    }
-    public Genre convertToEntity(GenreDTO genreDTO) {
-        Genre genre = new Genre();
-        genre.setName(genreDTO.getName());
-        genre.setId(genreDTO.getId());
-        return genre;
-    }
 }

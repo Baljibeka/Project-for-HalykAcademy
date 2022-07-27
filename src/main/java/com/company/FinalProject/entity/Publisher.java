@@ -1,6 +1,7 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.BookDTO;
+import com.company.FinalProject.dto.PublisherDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -63,5 +64,14 @@ public class Publisher {
 
     public void setPublishedBooksList(List<Book> publishedBooksList) {
         this.publishedBooksList = publishedBooksList;
+    }
+
+    public PublisherDTO convertToDto(boolean needPublishedBooks) {
+        PublisherDTO publisherDTO = new PublisherDTO();
+        publisherDTO.setName(this.getName());
+        publisherDTO.setId(this.getId());
+        if (needPublishedBooks)
+            publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(item->item.convertToDto()).toList());
+        return publisherDTO;
     }
 }

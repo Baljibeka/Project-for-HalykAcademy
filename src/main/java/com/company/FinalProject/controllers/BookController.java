@@ -30,14 +30,14 @@ public class BookController {
     public List<BookDTO> getAll(){
         List<Book> books=bookService.getAll();
         return books.stream()
-                .map(this::convertBookToDto)
+                .map(Book::convertToDto)
                 .collect(Collectors.toList());
     }
     @GetMapping("/book/{bookID}")
     private Optional<BookDTO> getBookById(@PathVariable("bookID") long id)
     {
         Optional<Book> books=bookService.findById(id);
-        return books.map(this::convertBookToDto);
+        return books.map(Book::convertToDto);
     }
 
     @GetMapping("/book/{bookName}")
@@ -45,7 +45,7 @@ public class BookController {
         List<Book> books = bookService.getByNameContaining(name);
         return books
                 .stream()
-                .map(this::convertBookToDto)
+                .map(Book::convertToDto)
                 .collect(Collectors.toList());
     }
 
@@ -57,41 +57,16 @@ public class BookController {
 
     @PostMapping("/book")
     private BookDTO saveBook(@RequestBody BookDTO bookDTO){
-        Book book = convertToEntity(bookDTO);
+        Book book = bookDTO.convertToEntity();
         Book bookCreated = bookService.create(book);
-        return convertBookToDto(bookCreated);
+        return bookCreated.convertToDto();
     }
     @PutMapping("/book/{bookID}")
     private void updateBook(@RequestBody BookDTO bookDTO,@PathVariable("bookID") long id)    {
         if(!Objects.equals(id, bookDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Book book = convertToEntity(bookDTO);
+        Book book = bookDTO.convertToEntity();
         bookService.update(book);
-    }
-
-    private BookDTO convertBookToDto(Book book) {
-        BookDTO bookDto = modelMapper.map(book, BookDTO.class);
-        bookDto.setName(book.getName());
-        bookDto.setAuthorList(book.getAuthorList());
-        bookDto.setId(book.getId());
-        bookDto.setPrice(book.getPrice());
-        bookDto.setPublisher(book.getPublisher());
-        bookDto.setNumberOfPages(book.getNumberOfPages());
-        bookDto.setYearOfIssue(book.getYearOfIssue());
-
-        return bookDto;
-    }
-    public Book convertToEntity(BookDTO bookDTO) {
-        Book book = new Book();
-        book.setName(bookDTO.getName());
-        book.setPublisher(bookDTO.getPublisher());
-        book.setPrice(bookDTO.getPrice());
-        book.setYearOfIssue(bookDTO.getYearOfIssue());
-        book.setId(bookDTO.getId());
-        book.setAuthorList(bookDTO.getAuthorList());
-        book.setNumberOfPages(bookDTO.getNumberOfPages());
-
-        return book;
     }
 }

@@ -1,6 +1,7 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.AuthorDTO;
+import com.company.FinalProject.dto.BookDTO;
 import com.company.FinalProject.dto.PublisherDTO;
 
 import javax.persistence.*;
@@ -38,9 +39,12 @@ public class Book {
     private int numberOfPages;
     @Column(name="year_of_issue")
     private LocalDate yearOfIssue;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "book_genre",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> booksGenresList;
     public Book() {}
 
     public long getId() {
@@ -49,6 +53,14 @@ public class Book {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public List<Genre> getBooksGenresList() {
+        return booksGenresList;
+    }
+
+    public void setBooksGenresList(List<Genre> booksGenresList) {
+        this.booksGenresList = booksGenresList;
     }
 
     public int getPrice() {
@@ -99,11 +111,16 @@ public class Book {
         this.yearOfIssue = yearOfIssue;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public BookDTO convertToDto() {
+        BookDTO bookDto = new BookDTO();
+        bookDto.setName(this.getName());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(item->item.convertToDto(false)).toList());
+        bookDto.setId(this.getId());
+        bookDto.setPrice(this.getPrice());
+        bookDto.setPublisher(this.getPublisher().convertToDto(false));
+        bookDto.setNumberOfPages(this.getNumberOfPages());
+        bookDto.setYearOfIssue(this.getYearOfIssue());
+        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
+        return bookDto;
     }
 }

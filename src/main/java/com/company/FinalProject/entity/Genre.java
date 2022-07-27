@@ -1,5 +1,7 @@
 package com.company.FinalProject.entity;
 
+import com.company.FinalProject.dto.GenreDTO;
+
 import javax.persistence.*;
 
 @Entity
@@ -34,5 +36,12 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public GenreDTO convertToDto() {
+        GenreDTO genreDTO = new GenreDTO();
+        genreDTO.setName(this.getName());
+        genreDTO.setId(this.getId());
+        return genreDTO;
     }
 }

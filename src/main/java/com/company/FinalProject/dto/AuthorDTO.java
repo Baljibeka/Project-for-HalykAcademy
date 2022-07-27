@@ -1,5 +1,6 @@
 package com.company.FinalProject.dto;
 
+import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Book;
 
 import java.time.LocalDate;
@@ -11,9 +12,16 @@ public class AuthorDTO {
     private String name;
     private String patronymic;
     private LocalDate dateOfBirth;
-    private List<Book> authorsBooksList;
+    private List<BookDTO> authorsBooksList;
+    private List<GenreDTO> authorsGenresList;
 
+    public List<GenreDTO> getAuthorsGenresList() {
+        return authorsGenresList;
+    }
 
+    public void setAuthorsGenresList(List<GenreDTO> authorsGenresList) {
+        this.authorsGenresList = authorsGenresList;
+    }
 
     public long getId() {
         return id;
@@ -55,11 +63,23 @@ public class AuthorDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public List<Book> getAuthorsBooksList() {
+    public List<BookDTO> getAuthorsBooksList() {
         return authorsBooksList;
     }
 
-    public void setAuthorsBooksList(List<Book> authorsBooksList) {
+    public void setAuthorsBooksList(List<BookDTO> authorsBooksList) {
         this.authorsBooksList = authorsBooksList;
+    }
+    public Author convertToEntity() {
+        Author author = new Author();
+        author.setName(this.getName());
+        author.setId(this.getId());
+        author.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(BookDTO::convertToEntity).toList());
+        author.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(GenreDTO::convertToEntity).toList());
+        author.setPatronymic(this.getPatronymic());
+        author.setSurname(this.getSurname());
+        author.setDateOfBirth(this.getDateOfBirth());
+
+        return author;
     }
 }

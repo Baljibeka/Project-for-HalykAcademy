@@ -1,5 +1,7 @@
 package com.company.FinalProject.entity;
 
+import com.company.FinalProject.dto.AuthorDTO;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -33,9 +35,13 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
+    @OneToMany
+    @JoinTable(
+            name = "author_genre",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> authorsGenresList;
+
 
     public Author() {
     }
@@ -118,11 +124,25 @@ public class Author {
         this.id = id;
     }
 
-    public Genre getGenre() {
-        return genre;
+    public List<Genre> getAuthorsGenresList() {
+        return authorsGenresList;
     }
 
-    public void setGenre(Genre genre) {
-        this.genre = genre;
+    public void setAuthorsGenresList(List<Genre> authorsGenresList) {
+        this.authorsGenresList = authorsGenresList;
+    }
+
+    public AuthorDTO convertToDto(boolean authorsBookList) {
+        AuthorDTO authorDTO = new AuthorDTO();
+        authorDTO.setName(this.getName());
+        authorDTO.setSurname(this.getSurname());
+        authorDTO.setId(this.getId());
+        authorDTO.setPatronymic(this.getPatronymic());
+        authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertToDto).toList());
+        if (authorsBookList)
+            authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertToDto).toList());
+        authorDTO.setDateOfBirth(this.getDateOfBirth());
+
+        return authorDTO;
     }
 }
