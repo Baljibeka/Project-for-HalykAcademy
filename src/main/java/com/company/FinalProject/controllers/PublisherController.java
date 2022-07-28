@@ -28,25 +28,17 @@ public class PublisherController {
 
     @GetMapping("/publisher")
     public List<PublisherDTO> getAll(){
-        List<Publisher> publishers=publisherService.getAll();
-        return publishers.stream()
-                .map(it->it.convertToDto(true))
-                .collect(Collectors.toList());
+        return publisherService.getAll();
     }
     @GetMapping("/publisher/{publisherID}")
     private Optional<PublisherDTO> getPublisherById(@PathVariable("publisherID") long id)
     {
-        Optional<Publisher> publishers=publisherService.findById(id);
-        return publishers.map(it->it.convertToDto(true));
+        return publisherService.findById(id);
     }
 
     @GetMapping("/publisher/{publisherName}")
     private List<PublisherDTO> getPublisherByName(@PathVariable("publisherName") String name) {
-        List<Publisher> publishers = publisherService.getByNameContaining(name);
-        return publishers
-                .stream()
-                .map(it->it.convertToDto(true))
-                .collect(Collectors.toList());
+        return publisherService.getByNameContaining(name);
     }
 
     @DeleteMapping("/publisher/{publisherID}")
@@ -57,17 +49,14 @@ public class PublisherController {
     @PostMapping("/publisher")
     private PublisherDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
     {
-        Publisher publisher = publisherDTO.convertToEntity();
-        Publisher publisherCreated = publisherService.create(publisher);
-        return publisherCreated.convertToDto(true);
+        return publisherService.create(publisherDTO);
     }
     @PutMapping("/publisher/{publisherID}")
     private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {
         if(!Objects.equals(id, publisherDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        Publisher publisher = publisherDTO.convertToEntity();
-        publisherService.update(publisher);
+        publisherService.update(publisherDTO);
     }
 
 

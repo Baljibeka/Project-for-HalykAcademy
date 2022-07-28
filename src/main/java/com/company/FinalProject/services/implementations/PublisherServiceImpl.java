@@ -1,5 +1,6 @@
 package com.company.FinalProject.services.implementations;
 
+import com.company.FinalProject.dto.PublisherDTO;
 import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.PublisherService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PublisherServiceImpl implements PublisherService {
@@ -19,13 +21,14 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public List<Publisher> getAll() {
-        return publisherRepo.findAll();
+    public List<PublisherDTO> getAll() {
+        return publisherRepo.findAll().stream().map(it->it.convertToDto(true)).collect(Collectors.toList());
     }
 
     @Override
-    public Publisher create(Publisher publisherDTO) {
-        return publisherRepo.save(publisherDTO);
+    public PublisherDTO create(PublisherDTO publisherDTO) {
+        Publisher publisher=publisherDTO.convertToEntity();
+        return publisherRepo.save(publisher).convertToDto(true);
     }
 
     @Override
@@ -34,7 +37,8 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public void update(Publisher publisher) {
+    public void update(PublisherDTO publisherDTO) {
+        Publisher publisher=publisherDTO.convertToEntity();
         Publisher existingPublisher = null;
         try {
             existingPublisher = publisherRepo.findById(publisher.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -47,13 +51,17 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public Optional<Publisher> findById(long id) {
-        return publisherRepo.findById(id);
+    public Optional<PublisherDTO> findById(long id) {
+        return publisherRepo.findById(id)
+                .map(it->it.convertToDto(true));
     }
 
     @Override
-    public List<Publisher> getByNameContaining(String name) {
-        return publisherRepo.findByNameIsContainingIgnoreCase(name);
+    public List<PublisherDTO> getByNameContaining(String name) {
+        return publisherRepo.findByNameIsContainingIgnoreCase(name)
+                .stream()
+                .map(it->it.convertToDto(true))
+                .collect(Collectors.toList());
     }
 
 }

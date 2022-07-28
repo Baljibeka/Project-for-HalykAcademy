@@ -1,5 +1,6 @@
 package com.company.FinalProject.services.implementations;
 
+import com.company.FinalProject.dto.BookDTO;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.BookService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -19,8 +21,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book create(Book book) {
-        return bookRepo.save(book);
+    public BookDTO create(BookDTO bookDTO) {
+        Book book = bookDTO.convertToEntity();
+        Book bookCreated = bookRepo.save(book);
+        return bookCreated.convertToDto();
     }
 
     @Override
@@ -29,7 +33,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void update(Book book) {
+    public void update(BookDTO bookDTO) {
+        Book book = bookDTO.convertToEntity();
         Book existingBook = null;
         try {
             existingBook = bookRepo.findById(book.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
@@ -46,17 +51,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> findById(long id) {
-        return bookRepo.findById(id);
+    public Optional<BookDTO> findById(long id) {
+        return bookRepo.findById(id).map(Book::convertToDto);
     }
 
     @Override
-    public List<Book> getAll() {
-        return bookRepo.findAll();
+    public List<BookDTO> getAll() {
+        return bookRepo.findAll().stream().map(Book::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<Book> getByNameContaining(String name) {
-        return  bookRepo.findByNameIsContainingIgnoreCase(name);
+    public List<BookDTO> getByNameContaining(String name) {
+        return  bookRepo.findByNameIsContainingIgnoreCase(name).stream().map(Book::convertToDto).collect(Collectors.toList());
     }
 }

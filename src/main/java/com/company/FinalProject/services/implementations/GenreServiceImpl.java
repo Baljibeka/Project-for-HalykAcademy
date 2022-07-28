@@ -1,5 +1,6 @@
 package com.company.FinalProject.services.implementations;
 
+import com.company.FinalProject.dto.GenreDTO;
 import com.company.FinalProject.entity.Genre;
 import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.services.GenreService;
@@ -7,6 +8,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GenreServiceImpl implements GenreService {
@@ -16,8 +18,10 @@ public class GenreServiceImpl implements GenreService {
         this.genreRepo=genreRepo;
     }
     @Override
-    public Genre create(Genre genre) {
-        return genreRepo.save(genre);
+    public GenreDTO create(GenreDTO genreDTO) {
+        Genre genre = genreDTO.convertToEntity();
+        Genre genreCreated = genreRepo.save(genre);
+        return genreCreated.convertToDto();
     }
 
     @Override
@@ -26,7 +30,8 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void update(Genre genre) {
+    public void update(GenreDTO genreDTO) {
+        Genre genre=genreDTO.convertToEntity();
         Genre existingGenre;
         try {
             existingGenre = (Genre) genreRepo.findById(genre.getId()).
@@ -42,7 +47,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public List<Genre> getAll() {
-        return genreRepo.findAll();
+    public List<GenreDTO> getAll() {
+        return genreRepo.findAll().stream().map(Genre::convertToDto).collect(Collectors.toList());
     }
 }

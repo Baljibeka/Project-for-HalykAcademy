@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 public interface PublisherService {
-    public List<Publisher> getAll();
-    public Publisher create(Publisher publisher);
+    public List<PublisherDTO> getAll();
+    public PublisherDTO create(PublisherDTO publisherDTO);
     public void delete(long id);
-    public void update(Publisher publisher);
-    public Optional<Publisher> findById(long id);
-    List<Publisher> getByNameContaining(String name);
+    public void update(PublisherDTO publisherDTO);
+    public Optional<PublisherDTO> findById(long id);
+    List<PublisherDTO> getByNameContaining(String name);
 }

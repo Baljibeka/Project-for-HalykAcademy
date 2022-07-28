@@ -1,13 +1,13 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.entity.Genre;
+import com.company.FinalProject.dto.GenreDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface GenreService {
-    public Genre create(Genre genre);
+    public GenreDTO create(GenreDTO genreDTO);
     public void delete(long id);
-    public void update(Genre genre);
-    public List<Genre> getAll();
+    public void update(GenreDTO genreDTO);
+    public List<GenreDTO> getAll();
 }

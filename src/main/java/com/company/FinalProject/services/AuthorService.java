@@ -1,16 +1,16 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.entity.Author;
+import com.company.FinalProject.dto.AuthorDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AuthorService {
-    public Author create(Author author);
+    public AuthorDTO create(AuthorDTO authorDTO);
     public void delete(long id);
-    public void update(Author author);
-    public Optional<Author> findById(long id);
-    List<Author> findByFIO(String name);
-    List<Author> getAll();
+    public void update(AuthorDTO authorDTO);
+    public Optional<AuthorDTO> findById(long id);
+    List<AuthorDTO> findByFIO(String name);
+    List<AuthorDTO> getAll();
 }
