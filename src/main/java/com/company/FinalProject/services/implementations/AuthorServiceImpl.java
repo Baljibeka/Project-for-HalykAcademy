@@ -1,6 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.AuthorDTO;
+import com.company.FinalProject.dto.AuthorResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.services.AuthorService;
@@ -23,17 +24,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
 
-    public AuthorDTO create(AuthorDTO authorDTO) {
-        Author author = authorDTO.convertToEntity();
+    public AuthorResponseDTO create(AuthorResponseDTO authorResponseDTO) {
+        Author author = authorResponseDTO.convertToEntity();
         Author authorCreated = authorRepo.save(author);
-        return authorCreated.convertToDto(true);
+        return authorCreated.convertToResponseDTO();
     }
 
     public void delete(long id) {
         authorRepo.deleteById(id);
     }
 
-    public void update(AuthorDTO authorDTO) {
+    public void update(AuthorDTO authorDTO, long id) {
         Author author = authorDTO.convertToEntity();
         Author existingAuthor = null;
         try {
@@ -50,17 +51,26 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<AuthorDTO> findById(long id) {
-        return authorRepo.findById(id).map(item->item.convertToDto(true));
+        return authorRepo.findById(id).map(Author::convertToDto);
     }
- // добавить фио
+
     @Override
     public List<AuthorDTO> findByFIO(String name) {
-        return authorRepo.findByNameContaining(name).stream().map(item->item.convertToDto(true)).collect(Collectors.toList());
+        return authorRepo.findByName(name).stream().map(Author::convertToDto).collect(Collectors.toList());
     }
     public List<AuthorDTO> getAll(){
         List<Author> authors = authorRepo.findAll();
         return authors.stream()
-                .map(item->item.convertToDto(true))
+                .map(Author::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<AuthorResponseDTO> getByGenreName(String genreName) {
+        return authorRepo.findAllByGenre(genreName).stream().map(Author::convertToResponseDTO).toList();
+    }
 }
+
+
+
+

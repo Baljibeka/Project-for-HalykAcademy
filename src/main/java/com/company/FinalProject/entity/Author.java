@@ -1,13 +1,21 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.AuthorDTO;
+import com.company.FinalProject.dto.AuthorResponseDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table()
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Author {
     @Id
     @SequenceGenerator(
@@ -42,107 +50,26 @@ public class Author {
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> authorsGenresList;
 
-
-    public Author() {
-    }
-
-    public Author(String surname,
-                  String name,
-                  String patronymic,
-                  LocalDate dateOfBirth,
-                  List<Book> authorsBooksList) {
-        this.surname = surname;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.dateOfBirth = dateOfBirth;
-        this.authorsBooksList = authorsBooksList;
-    }
-
-    public Author(long id,
-                  String surname,
-                  String name,
-                  String patronymic,
-                  LocalDate dateOfBirth,
-                  List<Book> authorsBooksList) {
-        this.id = id;
-        this.surname = surname;
-        this.name = name;
-        this.patronymic = patronymic;
-        this.dateOfBirth = dateOfBirth;
-        this.authorsBooksList = authorsBooksList;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPatronymic() {
-        return patronymic;
-    }
-
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public List<Book> getAuthorsBooksList() {
-        return authorsBooksList;
-    }
-
-    public void setAuthorsBooksList(List<Book> authorsBooksList) {
-        this.authorsBooksList = authorsBooksList;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Genre> getAuthorsGenresList() {
-        return authorsGenresList;
-    }
-
-    public void setAuthorsGenresList(List<Genre> authorsGenresList) {
-        this.authorsGenresList = authorsGenresList;
-    }
-
-    public AuthorDTO convertToDto(boolean authorsBookList) {
+    public AuthorDTO convertToDto() {
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setName(this.getName());
         authorDTO.setSurname(this.getSurname());
         authorDTO.setId(this.getId());
         authorDTO.setPatronymic(this.getPatronymic());
         authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertToDto).toList());
-        if (authorsBookList)
-            authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertToDto).toList());
+        authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertToResponseDto).toList());
         authorDTO.setDateOfBirth(this.getDateOfBirth());
 
         return authorDTO;
+    }
+
+    public AuthorResponseDTO convertToResponseDTO(){
+        AuthorResponseDTO authorResponseDTO=new AuthorResponseDTO();
+        authorResponseDTO.setName(this.getName());
+        authorResponseDTO.setSurname(this.getSurname());
+        authorResponseDTO.setId(this.getId());
+        authorResponseDTO.setPatronymic(this.getPatronymic());
+        authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
+        return authorResponseDTO;
     }
 }

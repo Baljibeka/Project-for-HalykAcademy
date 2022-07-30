@@ -1,6 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.dto.PublisherResponseDTO;
 import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.PublisherService;
@@ -22,13 +23,14 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public List<PublisherDTO> getAll() {
-        return publisherRepo.findAll().stream().map(it->it.convertToDto(true)).collect(Collectors.toList());
+        return publisherRepo.findAll().stream().map(Publisher::convertToDto).collect(Collectors.toList());
     }
 
+
     @Override
-    public PublisherDTO create(PublisherDTO publisherDTO) {
-        Publisher publisher=publisherDTO.convertToEntity();
-        return publisherRepo.save(publisher).convertToDto(true);
+    public PublisherResponseDTO create(PublisherResponseDTO publisherResponseDTO) {
+        Publisher publisher=publisherResponseDTO.convertToEntity();
+        return publisherRepo.save(publisher).convertToResponseDto();
     }
 
     @Override
@@ -37,7 +39,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public void update(PublisherDTO publisherDTO) {
+    public void update(PublisherDTO publisherDTO, long id) {
         Publisher publisher=publisherDTO.convertToEntity();
         Publisher existingPublisher = null;
         try {
@@ -53,14 +55,14 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public Optional<PublisherDTO> findById(long id) {
         return publisherRepo.findById(id)
-                .map(it->it.convertToDto(true));
+                .map(Publisher::convertToDto);
     }
 
     @Override
-    public List<PublisherDTO> getByNameContaining(String name) {
+    public List<PublisherResponseDTO> getByNameContaining(String name) {
         return publisherRepo.findByNameIsContainingIgnoreCase(name)
                 .stream()
-                .map(it->it.convertToDto(true))
+                .map(Publisher::convertToResponseDto)
                 .collect(Collectors.toList());
     }
 

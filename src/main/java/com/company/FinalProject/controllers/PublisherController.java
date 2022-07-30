@@ -2,6 +2,7 @@ package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.AuthorDTO;
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.dto.PublisherResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.services.PublisherService;
@@ -17,8 +18,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/publishers")
 public class PublisherController {
-    @Autowired
-    private ModelMapper modelMapper;
     @Autowired
     private PublisherService publisherService;
     @Autowired
@@ -36,8 +35,8 @@ public class PublisherController {
         return publisherService.findById(id);
     }
 
-    @GetMapping("/publisher/{publisherName}")
-    private List<PublisherDTO> getPublisherByName(@PathVariable("publisherName") String name) {
+    @GetMapping("/publisher/name/{publisherName}")
+    private List<PublisherResponseDTO> getPublisherByName(@PathVariable("publisherName") String name) {
         return publisherService.getByNameContaining(name);
     }
 
@@ -47,16 +46,16 @@ public class PublisherController {
         publisherService.delete(id);
     }
     @PostMapping("/publisher")
-    private PublisherDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
+    private PublisherResponseDTO savePublisher(@RequestBody PublisherResponseDTO publisherResponseDTO)
     {
-        return publisherService.create(publisherDTO);
+        return publisherService.create(publisherResponseDTO);
     }
     @PutMapping("/publisher/{publisherID}")
     private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {
         if(!Objects.equals(id, publisherDTO.getId())){
             throw new IllegalArgumentException("IDs don't match");
         }
-        publisherService.update(publisherDTO);
+        publisherService.update(publisherDTO, id);
     }
 
 

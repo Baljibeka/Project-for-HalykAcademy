@@ -10,5 +10,16 @@ import java.util.List;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long> {
-    List<Author> findByNameContaining(@Param("name") String name);
+    List<Author> findByName(String name);
+    @Query(value="""
+            SELECT *
+            FROM author b,
+                 author_genre bg,
+                 genre g
+            WHERE b.id = bg.author_id
+              and bg.genre_id = g.id
+              and g.name = :genreName
+""",nativeQuery = true)
+    List<Author> findAllByGenre(String genreName);
+
 }

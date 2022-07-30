@@ -2,6 +2,7 @@ package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.AuthorDTO;
 import com.company.FinalProject.dto.BookDTO;
+import com.company.FinalProject.dto.BookResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.services.BookService;
@@ -34,9 +35,16 @@ public class BookController {
         return bookService.findById(id);
     }
 
-    @GetMapping("/book/{bookName}")
+    @GetMapping("/book/name/{bookName}")
     private List<BookDTO> getBookByName(@PathVariable("bookName") String name) {
         return bookService.getByNameContaining(name);
+    }
+
+    @GetMapping("/book/genre/{genreName}")
+    private List<BookResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
+    {
+        return bookService.getByGenreName(genreName);
+
     }
 
     @DeleteMapping("/book/{bookID}")
@@ -46,8 +54,8 @@ public class BookController {
     }
 
     @PostMapping("/book")
-    private BookDTO saveBook(@RequestBody BookDTO bookDTO){
-        return bookService.create(bookDTO);
+    private BookResponseDTO saveBook(@RequestBody BookResponseDTO bookResponseDTO){
+        return bookService.create(bookResponseDTO);
     }
     @PutMapping("/book/{bookID}")
     private void updateBook(@RequestBody BookDTO bookDTO,@PathVariable("bookID") long id)    {

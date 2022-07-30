@@ -1,6 +1,7 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.AuthorDTO;
+import com.company.FinalProject.dto.AuthorResponseDTO;
 import com.company.FinalProject.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +31,16 @@ public class AuthorController {
         return authorService.findById(id);
     }
 
-    @GetMapping("/author/{authorName}")
+    @GetMapping("/author/name/{authorName}")
     private List<AuthorDTO> getAuthorByName(@PathVariable("authorName") String name) {
         return authorService.findByFIO(name);
+    }
+
+    @GetMapping("/author/genre/{genreName}")
+    private List<AuthorResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
+    {
+        return authorService.getByGenreName(genreName);
+
     }
 
     @DeleteMapping("/author/{authorID}")
@@ -41,8 +49,8 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    private AuthorDTO save(@RequestBody AuthorDTO authorDTO) {
-        return authorService.create(authorDTO);
+    private AuthorResponseDTO save(@RequestBody AuthorResponseDTO authorResponseDTO) {
+        return authorService.create(authorResponseDTO);
     }
 
     @PutMapping("/author/{authorID}")
@@ -50,7 +58,7 @@ public class AuthorController {
         if (!Objects.equals(id, authorDTO.getId())) {
             throw new IllegalArgumentException("IDs don't match");
         }
-        authorService.update(authorDTO);
+        authorService.update(authorDTO, id);
     }
 
 }

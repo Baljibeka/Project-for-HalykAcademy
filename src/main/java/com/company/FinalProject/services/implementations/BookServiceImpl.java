@@ -1,6 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.BookDTO;
+import com.company.FinalProject.dto.BookResponseDTO;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.BookService;
@@ -21,10 +22,10 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDTO create(BookDTO bookDTO) {
-        Book book = bookDTO.convertToEntity();
+    public BookResponseDTO create(BookResponseDTO bookResponseDTO) {
+        Book book = bookResponseDTO.convertToEntity();
         Book bookCreated = bookRepo.save(book);
-        return bookCreated.convertToDto();
+        return bookCreated.convertToResponseDto();
     }
 
     @Override
@@ -63,5 +64,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDTO> getByNameContaining(String name) {
         return  bookRepo.findByNameIsContainingIgnoreCase(name).stream().map(Book::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookResponseDTO> getByGenreName(String genreName) {
+        return bookRepo.findAllByGenre(genreName).stream().map(Book::convertToResponseDto).toList();
     }
 }

@@ -2,10 +2,19 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.BookDTO;
 import com.company.FinalProject.dto.PublisherDTO;
+import com.company.FinalProject.dto.PublisherResponseDTO;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "PUBLISHER")
 public class Publisher {
     @Id
@@ -25,53 +34,18 @@ public class Publisher {
     @OneToMany(mappedBy = "publisher")
     private List<Book> publishedBooksList;
 
-    public Publisher() {
-    }
-
-    public Publisher(String name,
-                     List<Book> publishedBooksList) {
-        this.name = name;
-        this.publishedBooksList = publishedBooksList;
-    }
-
-    public Publisher(long id,
-                     String name,
-                     List<Book> publishedBooksList) {
-        this.id = id;
-        this.name = name;
-        this.publishedBooksList = publishedBooksList;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Book> getPublishedBooksList() {
-        return publishedBooksList;
-    }
-
-    public void setPublishedBooksList(List<Book> publishedBooksList) {
-        this.publishedBooksList = publishedBooksList;
-    }
-
-    public PublisherDTO convertToDto(boolean needPublishedBooks) {
+    public PublisherDTO convertToDto() {
         PublisherDTO publisherDTO = new PublisherDTO();
         publisherDTO.setName(this.getName());
         publisherDTO.setId(this.getId());
-        if (needPublishedBooks)
-            publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(item->item.convertToDto()).toList());
+        publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(Book::convertToResponseDto).toList());
         return publisherDTO;
+    }
+
+    public PublisherResponseDTO convertToResponseDto() {
+        PublisherResponseDTO publisherResponseDTO = new PublisherResponseDTO();
+        publisherResponseDTO.setName(this.getName());
+        publisherResponseDTO.setId(this.getId());
+        return publisherResponseDTO;
     }
 }
