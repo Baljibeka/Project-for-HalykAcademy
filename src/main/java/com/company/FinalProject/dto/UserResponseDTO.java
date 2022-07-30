@@ -19,7 +19,7 @@ public class UserResponseDTO {
     public User convertToEntity(){
         User user=new User();
         user.setId(this.getId());
-        user.sFlywstLogin(this.getLogin());
+        user.setLogin(this.getLogin());
         user.setPassword(this.getPassword());
         user.setRole(this.getRole());
         return user;
