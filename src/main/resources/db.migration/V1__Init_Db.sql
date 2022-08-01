@@ -42,7 +42,7 @@ CREATE TABLE if not exists users
     CONSTRAINT pk_user PRIMARY KEY (user_id)
 );
 
-ALTER TABLE "users"
+ALTER TABLE users
     ADD CONSTRAINT uc_user_login UNIQUE (login);
 
 create table if not exists book_genre (

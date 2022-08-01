@@ -24,6 +24,7 @@ public class BookDTO {
     private LocalDate yearOfIssue;
     private List<GenreDTO> genreList;
 
+
     public Book convertToEntity() {
         Book book = new Book();
         book.setName(this.getName());

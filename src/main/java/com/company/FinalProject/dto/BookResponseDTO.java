@@ -31,6 +31,7 @@ public class BookResponseDTO {
         book.setYearOfIssue(this.getYearOfIssue());
         book.setId(this.getId());
         book.setNumberOfPages(this.getNumberOfPages());
+        book.setBooksGenresList(this.getGenreList().stream().map(GenreDTO::convertToEntity).toList());
         return book;
     }
 }

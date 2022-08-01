@@ -45,7 +45,7 @@ public class Book {
     private int numberOfPages;
     @Column(name="year_of_issue")
     private LocalDate yearOfIssue;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -73,6 +73,7 @@ public class Book {
         bookResponseDTO.setPublisher(this.getPublisher().convertToResponseDto());
         bookResponseDTO.setNumberOfPages(this.getNumberOfPages());
         bookResponseDTO.setYearOfIssue(this.getYearOfIssue());
+        bookResponseDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
         return bookResponseDTO;
     }
 

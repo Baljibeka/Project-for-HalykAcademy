@@ -35,7 +35,7 @@ public class Order {
     private User user;
     @Column(name="created_at")
     private LocalDate createdAt;
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "order_books",
             joinColumns = @JoinColumn(name = "order_id"),
