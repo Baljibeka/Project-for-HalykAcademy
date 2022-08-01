@@ -1,7 +1,8 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.dto.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorDTO;
+import com.company.FinalProject.dto.Author.AuthorIdDTO;
+import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,8 +57,8 @@ public class Author {
         authorDTO.setSurname(this.getSurname());
         authorDTO.setId(this.getId());
         authorDTO.setPatronymic(this.getPatronymic());
-        authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertToDto).toList());
-        authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertToResponseDto).toList());
+        authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::convertToIdDTO).toList());
+        authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::convertToIdDTO).toList());
         authorDTO.setDateOfBirth(this.getDateOfBirth());
 
         return authorDTO;
@@ -71,5 +72,10 @@ public class Author {
         authorResponseDTO.setPatronymic(this.getPatronymic());
         authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
         return authorResponseDTO;
+    }
+    public AuthorIdDTO convertToIdDTO(){
+        AuthorIdDTO authorIdDTO =new AuthorIdDTO();
+        authorIdDTO.setId(this.getId());
+        return authorIdDTO;
     }
 }

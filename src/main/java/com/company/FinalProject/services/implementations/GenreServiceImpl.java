@@ -1,6 +1,6 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.GenreDTO;
+import com.company.FinalProject.dto.Genre.GenreDTO;
 import com.company.FinalProject.entity.Genre;
 import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.services.GenreService;

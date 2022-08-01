@@ -1,7 +1,7 @@
 package com.company.FinalProject.controllers;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.dto.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorDTO;
+import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import com.company.FinalProject.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

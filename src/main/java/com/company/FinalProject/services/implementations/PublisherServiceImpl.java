@@ -1,7 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.PublisherDTO;
-import com.company.FinalProject.dto.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherDTO;
+import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 import com.company.FinalProject.entity.Publisher;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.PublisherService;

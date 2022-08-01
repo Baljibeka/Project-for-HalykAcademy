@@ -1,6 +1,6 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.dto.OrderDTO;
+import com.company.FinalProject.dto.Order.OrderDTO;
 
 import java.util.List;
 import java.util.Optional;

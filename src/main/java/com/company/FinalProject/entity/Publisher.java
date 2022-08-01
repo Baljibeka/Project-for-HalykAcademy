@@ -1,8 +1,7 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.BookDTO;
-import com.company.FinalProject.dto.PublisherDTO;
-import com.company.FinalProject.dto.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherDTO;
+import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +37,7 @@ public class Publisher {
         PublisherDTO publisherDTO = new PublisherDTO();
         publisherDTO.setName(this.getName());
         publisherDTO.setId(this.getId());
-        publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(Book::convertToResponseDto).toList());
+        publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(Book::convertToIdDTO).toList());
         return publisherDTO;
     }
 

@@ -1,7 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.BookDTO;
-import com.company.FinalProject.dto.BookResponseDTO;
+import com.company.FinalProject.dto.Book.BookDTO;
+import com.company.FinalProject.dto.Book.BookResponseDTO;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.BookService;

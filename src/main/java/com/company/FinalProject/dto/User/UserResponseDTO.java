@@ -1,4 +1,4 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.User;
 
 import com.company.FinalProject.entity.User;
 import com.company.FinalProject.entity.UserRole;
@@ -10,17 +10,18 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class UserDTO {
+public class UserResponseDTO {
     private long id;
     private String login;
+    private String password;
     private UserRole role;
 
     public User convertToEntity(){
-        User user = new User();
+        User user=new User();
         user.setId(this.getId());
         user.setLogin(this.getLogin());
+        user.setPassword(this.getPassword());
         user.setRole(this.getRole());
         return user;
     }
-
 }

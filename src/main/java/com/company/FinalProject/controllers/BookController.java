@@ -1,19 +1,14 @@
 package com.company.FinalProject.controllers;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.dto.BookDTO;
-import com.company.FinalProject.dto.BookResponseDTO;
-import com.company.FinalProject.entity.Author;
-import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.dto.Book.BookDTO;
+import com.company.FinalProject.dto.Book.BookResponseDTO;
 import com.company.FinalProject.services.BookService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/books")

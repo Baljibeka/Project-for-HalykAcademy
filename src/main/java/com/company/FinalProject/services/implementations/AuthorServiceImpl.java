@@ -1,7 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.dto.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorDTO;
+import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.services.AuthorService;
@@ -10,7 +10,6 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 

@@ -1,6 +1,6 @@
 package com.company.FinalProject.controllers;
 
-import com.company.FinalProject.dto.OrderDTO;
+import com.company.FinalProject.dto.Order.OrderDTO;
 import com.company.FinalProject.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

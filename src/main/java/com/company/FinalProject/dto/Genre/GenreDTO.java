@@ -1,4 +1,4 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.Genre;
 
 import com.company.FinalProject.entity.Genre;
 import lombok.*;

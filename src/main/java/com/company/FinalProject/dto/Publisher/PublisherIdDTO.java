@@ -1,8 +1,7 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.Publisher;
 
 import com.company.FinalProject.entity.Publisher;
 import lombok.*;
-
 
 @Data
 @Getter
@@ -10,15 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class PublisherResponseDTO {
-
+public class PublisherIdDTO {
     private long id;
-
-    private String name;
-
     public Publisher convertToEntity(){
-        Publisher publisher = new Publisher();
-        publisher.setName(this.getName());
+        Publisher publisher=new Publisher();
         publisher.setId(this.getId());
         return publisher;
     }

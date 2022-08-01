@@ -1,6 +1,8 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.*;
+import com.company.FinalProject.dto.Book.BookDTO;
+import com.company.FinalProject.dto.Book.BookIdDTO;
+import com.company.FinalProject.dto.Book.BookResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,13 +57,13 @@ public class Book {
     public BookDTO convertToDto() {
         BookDTO bookDto = new BookDTO();
         bookDto.setName(this.getName());
-        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::convertToResponseDTO).toList());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::convertToIdDTO).toList());
         bookDto.setId(this.getId());
         bookDto.setPrice(this.getPrice());
         bookDto.setPublisher(this.getPublisher().convertToResponseDto());
         bookDto.setNumberOfPages(this.getNumberOfPages());
         bookDto.setYearOfIssue(this.getYearOfIssue());
-        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
+        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToIdDTO).toList());
         return bookDto;
     }
 
@@ -76,5 +78,9 @@ public class Book {
         bookResponseDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
         return bookResponseDTO;
     }
-
+    public BookIdDTO convertToIdDTO(){
+        BookIdDTO bookIdDTO = new BookIdDTO();
+        bookIdDTO.setId(this.getId());
+        return bookIdDTO;
+    }
 }

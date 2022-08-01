@@ -1,5 +1,8 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.Order;
 
+import com.company.FinalProject.dto.Book.BookIdDTO;
+import com.company.FinalProject.dto.Book.BookResponseDTO;
+import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.entity.Order;
 import com.company.FinalProject.entity.OrderStatus;
 import lombok.*;
@@ -16,7 +19,7 @@ import java.util.List;
 public class OrderDTO {
     private long id;
     private UserDTO user;
-    private List<BookResponseDTO> books;
+    private List<BookIdDTO> books;
     private OrderStatus status;
     private LocalDate createdAt;
 
@@ -25,7 +28,7 @@ public class OrderDTO {
         order.setId(this.getId());
         order.setUser(this.getUser().convertToEntity());
         order.setStatus(this.getStatus());
-        order.setBooks(this.getBooks().stream().map(BookResponseDTO::convertToEntity).toList());
+        order.setBooks(this.getBooks().stream().map(BookIdDTO::convertToEntity).toList());
         order.setCreatedAt(this.getCreatedAt());
         return order;
     }

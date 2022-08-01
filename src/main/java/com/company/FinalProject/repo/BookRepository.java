@@ -15,8 +15,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             FROM book b,
                  book_genre bg,
                  genre g
-            WHERE b.id = bg.book_id
-              and bg.genre_id = g.id
+            WHERE b.book_id = bg.book_id
+              and bg.genre_id = g.genre_id
               and g.name = :genreName
 """,nativeQuery = true)
     List<Book> findAllByGenre(String genreName);

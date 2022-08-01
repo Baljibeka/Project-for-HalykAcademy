@@ -16,8 +16,8 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
             FROM author b,
                  author_genre bg,
                  genre g
-            WHERE b.id = bg.author_id
-              and bg.genre_id = g.id
+            WHERE b.author_id = bg.author_id
+              and bg.genre_id = g.genre_id
               and g.name = :genreName
 """,nativeQuery = true)
     List<Author> findAllByGenre(String genreName);

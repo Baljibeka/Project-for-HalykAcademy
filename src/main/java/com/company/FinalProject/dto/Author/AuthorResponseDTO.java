@@ -1,5 +1,6 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.Author;
 
+import com.company.FinalProject.dto.Genre.GenreDTO;
 import com.company.FinalProject.entity.Author;
 
 import java.time.LocalDate;

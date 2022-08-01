@@ -1,19 +1,14 @@
 package com.company.FinalProject.controllers;
 
-import com.company.FinalProject.dto.AuthorDTO;
-import com.company.FinalProject.dto.PublisherDTO;
-import com.company.FinalProject.dto.PublisherResponseDTO;
-import com.company.FinalProject.entity.Author;
-import com.company.FinalProject.entity.Publisher;
+import com.company.FinalProject.dto.Publisher.PublisherDTO;
+import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 import com.company.FinalProject.services.PublisherService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/publishers")

@@ -1,7 +1,7 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.UserDTO;
-import com.company.FinalProject.dto.UserResponseDTO;
+import com.company.FinalProject.dto.User.UserDTO;
+import com.company.FinalProject.dto.User.UserResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

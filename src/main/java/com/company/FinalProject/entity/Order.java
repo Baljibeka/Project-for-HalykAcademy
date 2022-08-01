@@ -1,6 +1,6 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.OrderDTO;
+import com.company.FinalProject.dto.Order.OrderDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -47,7 +46,7 @@ public class Order {
     public OrderDTO convertToDTO(){
         OrderDTO orderDTO=new OrderDTO();
         orderDTO.setId(this.getId());
-        orderDTO.setBooks(this.getBooks().stream().map(Book::convertToResponseDto).toList());
+        orderDTO.setBooks(this.getBooks().stream().map(Book::convertToIdDTO).toList());
         orderDTO.setUser(this.getUser().convertToDTO());
         orderDTO.setStatus(this.getStatus());
         orderDTO.setCreatedAt(this.getCreatedAt());

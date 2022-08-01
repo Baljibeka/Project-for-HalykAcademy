@@ -1,7 +1,7 @@
 package com.company.FinalProject.services.implementations;
 
-import com.company.FinalProject.dto.UserDTO;
-import com.company.FinalProject.dto.UserResponseDTO;
+import com.company.FinalProject.dto.User.UserDTO;
+import com.company.FinalProject.dto.User.UserResponseDTO;
 import com.company.FinalProject.entity.User;
 import com.company.FinalProject.repo.UserRepository;
 import com.company.FinalProject.services.UserService;

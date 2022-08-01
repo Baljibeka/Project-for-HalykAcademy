@@ -1,7 +1,7 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.dto.BookDTO;
-import com.company.FinalProject.dto.BookResponseDTO;
+import com.company.FinalProject.dto.Book.BookDTO;
+import com.company.FinalProject.dto.Book.BookResponseDTO;
 
 import java.util.List;
 import java.util.Optional;

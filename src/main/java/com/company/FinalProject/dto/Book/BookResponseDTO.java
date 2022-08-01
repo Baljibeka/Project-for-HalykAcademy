@@ -1,5 +1,7 @@
-package com.company.FinalProject.dto;
+package com.company.FinalProject.dto.Book;
 
+import com.company.FinalProject.dto.Genre.GenreDTO;
+import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 import com.company.FinalProject.entity.Book;
 
 import java.time.LocalDate;

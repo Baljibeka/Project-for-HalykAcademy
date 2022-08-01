@@ -1,17 +1,12 @@
 package com.company.FinalProject.controllers;
 
-import com.company.FinalProject.dto.GenreDTO;
-import com.company.FinalProject.entity.Book;
-import com.company.FinalProject.entity.Genre;
+import com.company.FinalProject.dto.Genre.GenreDTO;
 import com.company.FinalProject.services.GenreService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/genres")

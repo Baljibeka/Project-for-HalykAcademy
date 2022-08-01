@@ -1,8 +1,7 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.dto.UserDTO;
-import com.company.FinalProject.dto.UserResponseDTO;
-import org.springframework.stereotype.Service;
+import com.company.FinalProject.dto.User.UserDTO;
+import com.company.FinalProject.dto.User.UserResponseDTO;
 
 import java.util.List;
 import java.util.Optional;

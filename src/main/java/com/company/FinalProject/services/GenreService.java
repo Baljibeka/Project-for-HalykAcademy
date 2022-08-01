@@ -1,9 +1,8 @@
 package com.company.FinalProject.services;
 
-import com.company.FinalProject.dto.GenreDTO;
+import com.company.FinalProject.dto.Genre.GenreDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GenreService {
     public GenreDTO create(GenreDTO genreDTO);

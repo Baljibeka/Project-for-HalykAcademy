@@ -1,10 +1,8 @@
 package com.company.FinalProject.services;
 
 
-import com.company.FinalProject.dto.PublisherDTO;
-import com.company.FinalProject.dto.PublisherResponseDTO;
-import com.company.FinalProject.entity.Publisher;
-import org.springframework.stereotype.Service;
+import com.company.FinalProject.dto.Publisher.PublisherDTO;
+import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
