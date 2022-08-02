@@ -37,7 +37,7 @@ public class Publisher {
         PublisherDTO publisherDTO = new PublisherDTO();
         publisherDTO.setName(this.getName());
         publisherDTO.setId(this.getId());
-        publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(Book::convertToIdDTO).toList());
+        publisherDTO.setPublishedBooks(this.getPublishedBooksList().stream().map(Book::getId).toList());
         return publisherDTO;
     }
 

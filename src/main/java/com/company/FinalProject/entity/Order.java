@@ -1,6 +1,7 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Order.OrderDTO;
+import com.company.FinalProject.dto.Order.OrderResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,10 +47,19 @@ public class Order {
     public OrderDTO convertToDTO(){
         OrderDTO orderDTO=new OrderDTO();
         orderDTO.setId(this.getId());
-        orderDTO.setBooks(this.getBooks().stream().map(Book::convertToIdDTO).toList());
-        orderDTO.setUser(this.getUser().convertToDTO());
+        orderDTO.setBooks(this.getBooks().stream().map(Book::getId).toList());
+        orderDTO.setUser(this.getUser().getId());
         orderDTO.setStatus(this.getStatus());
         orderDTO.setCreatedAt(this.getCreatedAt());
         return orderDTO;
+    }
+    public OrderResponseDTO convertToResponseDTO(){
+        OrderResponseDTO orderResponseDTO=new OrderResponseDTO();
+        orderResponseDTO.setId(this.getId());
+        orderResponseDTO.setBooks(this.getBooks().stream().map(Book::convertToResponseDto).toList());
+        orderResponseDTO.setStatus(this.getStatus());
+        orderResponseDTO.setUser(this.getUser().convertToDTO());
+        orderResponseDTO.setCreatedAt(this.getCreatedAt());
+        return orderResponseDTO;
     }
 }

@@ -1,6 +1,7 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.Order.OrderDTO;
+import com.company.FinalProject.dto.Order.OrderResponseDTO;
 import com.company.FinalProject.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +20,23 @@ public class OrderController {
         this.orderService = orderService;
     }
     @PostMapping("/order")
-    private OrderDTO create(@RequestBody OrderDTO orderDTO){
+    public OrderResponseDTO create(@RequestBody OrderDTO orderDTO){
         return orderService.create(orderDTO);
     }
-    @PutMapping("order/{orderID}")
-    private void update(@RequestBody OrderDTO orderDTO,@PathVariable("orderID") long id){
-        if(!Objects.equals(id, orderDTO.getId())){
-            throw new IllegalArgumentException("IDs don't match");
-        }
-        orderService.update(orderDTO, id);
+    @PutMapping("order")
+    public void update(@RequestBody OrderDTO orderDTO){
+        orderService.update(orderDTO);
     }
     @DeleteMapping("/order/{orderID}")
-    private void delete(@PathVariable("orderID") long id){
+    public void delete(@PathVariable("orderID") long id){
         orderService.delete(id);
     }
     @GetMapping("/order")
-    private List<OrderDTO> getAll(){
+    public List<OrderResponseDTO> getAll(){
         return orderService.getAll();
     }
     @GetMapping("/order/{orderID}")
-    private Optional<OrderDTO> getByID(@PathVariable("orderID") long id){
+    public Optional<OrderResponseDTO> getByID(@PathVariable("orderID") long id){
         return orderService.getByID(id);
     }
 }

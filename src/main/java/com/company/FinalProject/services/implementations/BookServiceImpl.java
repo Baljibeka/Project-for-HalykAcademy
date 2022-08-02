@@ -3,8 +3,12 @@ package com.company.FinalProject.services.implementations;
 import com.company.FinalProject.dto.Book.BookDTO;
 import com.company.FinalProject.dto.Book.BookResponseDTO;
 import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.repo.BookRepository;
+import com.company.FinalProject.repo.GenreRepository;
+import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.BookService;
+import lombok.val;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +19,15 @@ import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepo;
+    private final AuthorRepository authorRepo;
+    private final GenreRepository genreRepo;
+    private final PublisherRepository publisherRepo;
 
-    public BookServiceImpl(BookRepository bookRepo) {
-        super();
+    public BookServiceImpl(BookRepository bookRepo, AuthorRepository authorRepo, GenreRepository genreRepo, PublisherRepository publisherRepo) {
         this.bookRepo = bookRepo;
+        this.authorRepo=authorRepo;
+        this.genreRepo=genreRepo;
+        this.publisherRepo=publisherRepo;
     }
 
     @Override
@@ -35,7 +44,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void update(BookDTO bookDTO) {
-        Book book = bookDTO.convertToEntity();
+        val authors=authorRepo.findAllById(bookDTO.getAuthorList());
+        val genres=genreRepo.findAllById(bookDTO.getGenreList());
+        val publishers=publisherRepo.findById(bookDTO.getPublisherId()).orElseThrow();
+        Book book = bookDTO.convertToEntity(publishers, genres, authors);
         Book existingBook = null;
         try {
             existingBook = bookRepo.findById(book.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);

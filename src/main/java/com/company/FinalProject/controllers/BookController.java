@@ -25,38 +25,35 @@ public class BookController {
         return bookService.getAll();
     }
     @GetMapping("/book/{bookID}")
-    private Optional<BookDTO> getBookById(@PathVariable("bookID") long id)
+    public Optional<BookDTO> getBookById(@PathVariable("bookID") long id)
     {
         return bookService.findById(id);
     }
 
     @GetMapping("/book/name/{bookName}")
-    private List<BookDTO> getBookByName(@PathVariable("bookName") String name) {
+    public List<BookDTO> getBookByName(@PathVariable("bookName") String name) {
         return bookService.getByNameContaining(name);
     }
 
     @GetMapping("/book/genre/{genreName}")
-    private List<BookResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
+    public List<BookResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
     {
         return bookService.getByGenreName(genreName);
 
     }
 
     @DeleteMapping("/book/{bookID}")
-    private void deleteBookById(@PathVariable("bookID") long id)
+    public void deleteBookById(@PathVariable("bookID") long id)
     {
         bookService.delete(id);
     }
 
     @PostMapping("/book")
-    private BookResponseDTO saveBook(@RequestBody BookResponseDTO bookResponseDTO){
+    public BookResponseDTO saveBook(@RequestBody BookResponseDTO bookResponseDTO){
         return bookService.create(bookResponseDTO);
     }
-    @PutMapping("/book/{bookID}")
-    private void updateBook(@RequestBody BookDTO bookDTO,@PathVariable("bookID") long id)    {
-        if(!Objects.equals(id, bookDTO.getId())){
-            throw new IllegalArgumentException("IDs don't match");
-        }
+    @PutMapping("/book")
+    public void updateBook(@RequestBody BookDTO bookDTO)    {
         bookService.update(bookDTO);
     }
 }

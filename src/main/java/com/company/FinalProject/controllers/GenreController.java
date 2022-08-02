@@ -26,11 +26,8 @@ public class GenreController {
     public void delete(@PathVariable("genreID") long id){
         genreService.delete(id);
     }
-    @PutMapping("/genre/{genreID}")
-    public void update(@RequestBody GenreDTO genreDTO, @PathVariable("genreID") long id){
-        if(!Objects.equals(id, genreDTO.getId())){
-            throw new IllegalArgumentException("IDs don't match");
-        }
+    @PutMapping("/genre")
+    public void update(@RequestBody GenreDTO genreDTO){
         genreService.update(genreDTO);
     }
     @GetMapping("/genre")

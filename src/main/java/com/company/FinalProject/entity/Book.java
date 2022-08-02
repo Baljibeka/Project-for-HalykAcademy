@@ -1,7 +1,6 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Book.BookDTO;
-import com.company.FinalProject.dto.Book.BookIdDTO;
 import com.company.FinalProject.dto.Book.BookResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,13 +56,13 @@ public class Book {
     public BookDTO convertToDto() {
         BookDTO bookDto = new BookDTO();
         bookDto.setName(this.getName());
-        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::convertToIdDTO).toList());
+        bookDto.setAuthorList(this.getAuthorList().stream().map(Author::getId).toList());
         bookDto.setId(this.getId());
         bookDto.setPrice(this.getPrice());
-        bookDto.setPublisher(this.getPublisher().convertToResponseDto());
+        bookDto.setPublisherId(this.getPublisher().getId());
         bookDto.setNumberOfPages(this.getNumberOfPages());
         bookDto.setYearOfIssue(this.getYearOfIssue());
-        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToIdDTO).toList());
+        bookDto.setGenreList(this.getBooksGenresList().stream().map(Genre::getId).toList());
         return bookDto;
     }
 
@@ -77,10 +76,5 @@ public class Book {
         bookResponseDTO.setYearOfIssue(this.getYearOfIssue());
         bookResponseDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
         return bookResponseDTO;
-    }
-    public BookIdDTO convertToIdDTO(){
-        BookIdDTO bookIdDTO = new BookIdDTO();
-        bookIdDTO.setId(this.getId());
-        return bookIdDTO;
     }
 }

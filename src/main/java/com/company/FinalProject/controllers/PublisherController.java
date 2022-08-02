@@ -21,36 +21,33 @@ public class PublisherController {
     }
 
     @GetMapping("/publisher")
-    public List<PublisherDTO> getAll(){
+    public List<PublisherResponseDTO> getAll(){
         return publisherService.getAll();
     }
     @GetMapping("/publisher/{publisherID}")
-    private Optional<PublisherDTO> getPublisherById(@PathVariable("publisherID") long id)
+    public Optional<PublisherResponseDTO> getPublisherById(@PathVariable("publisherID") long id)
     {
         return publisherService.findById(id);
     }
 
     @GetMapping("/publisher/name/{publisherName}")
-    private List<PublisherResponseDTO> getPublisherByName(@PathVariable("publisherName") String name) {
+    public List<PublisherResponseDTO> getPublisherByName(@PathVariable("publisherName") String name) {
         return publisherService.getByNameContaining(name);
     }
 
     @DeleteMapping("/publisher/{publisherID}")
-    private void deletePublisherById(@PathVariable("publisherID") long id)
+    public void deletePublisherById(@PathVariable("publisherID") long id)
     {
         publisherService.delete(id);
     }
     @PostMapping("/publisher")
-    private PublisherResponseDTO savePublisher(@RequestBody PublisherResponseDTO publisherResponseDTO)
+    public PublisherResponseDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
     {
-        return publisherService.create(publisherResponseDTO);
+        return publisherService.create(publisherDTO);
     }
-    @PutMapping("/publisher/{publisherID}")
-    private void updatePublisher(@RequestBody PublisherDTO publisherDTO,@PathVariable("publisherID") long id)    {
-        if(!Objects.equals(id, publisherDTO.getId())){
-            throw new IllegalArgumentException("IDs don't match");
-        }
-        publisherService.update(publisherDTO, id);
+    @PutMapping("/publisher")
+    public void updatePublisher(@RequestBody PublisherDTO publisherDTO)    {
+        publisherService.update(publisherDTO);
     }
 
 

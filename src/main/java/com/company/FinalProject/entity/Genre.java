@@ -1,7 +1,6 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Genre.GenreDTO;
-import com.company.FinalProject.dto.Genre.GenreIdDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,10 +35,5 @@ public class Genre {
         genreDTO.setName(this.getName());
         genreDTO.setId(this.getId());
         return genreDTO;
-    }
-    public GenreIdDTO convertToIdDTO(){
-        GenreIdDTO genreIdDTO=new GenreIdDTO();
-        genreIdDTO.setId(this.getId());
-        return genreIdDTO;
     }
 }

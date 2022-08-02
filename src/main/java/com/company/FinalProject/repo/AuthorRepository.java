@@ -21,5 +21,4 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
               and g.name = :genreName
 """,nativeQuery = true)
     List<Author> findAllByGenre(String genreName);
-
 }

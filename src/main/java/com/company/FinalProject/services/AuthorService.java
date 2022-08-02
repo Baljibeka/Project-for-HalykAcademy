@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthorService {
-    public AuthorResponseDTO create(AuthorResponseDTO authorResponseDTO);
+    public AuthorResponseDTO create(AuthorDTO authorDTO);
     public void delete(long id);
-    public void update(AuthorDTO authorDTO, long id);
+    public void update(AuthorDTO authorDTO);
     public Optional<AuthorDTO> findById(long id);
     List<AuthorDTO> findByFIO(String name);
     List<AuthorDTO> getAll();

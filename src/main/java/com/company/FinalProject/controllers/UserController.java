@@ -20,26 +20,23 @@ public class UserController {
         this.userService = userService;
     }
     @GetMapping("/user")
-    private List<UserDTO> getAll(){
+    public List<UserDTO> getAll(){
         return userService.getAll();
     }
     @PostMapping("user")
-    private UserResponseDTO create(@RequestBody UserResponseDTO userResponseDTO){
+    public UserResponseDTO create(@RequestBody UserResponseDTO userResponseDTO){
         return userService.create(userResponseDTO);
     }
-    @PutMapping("/user/{userID}")
-    private void update(@RequestBody UserResponseDTO userResponseDTO,@PathVariable("userID") long id){
-        if(!Objects.equals(id, userResponseDTO.getId())){
-            throw new IllegalArgumentException("IDs don't match");
-        }
-        userService.update(userResponseDTO, id);
+    @PutMapping("/user")
+    public void update(@RequestBody UserResponseDTO userResponseDTO){
+        userService.update(userResponseDTO);
     }
     @DeleteMapping("/user/{userID}")
-    private void delete(@PathVariable("userID") long id){
+    public void delete(@PathVariable("userID") long id){
         userService.delete(id);
     }
     @GetMapping("/user/{userID}")
-    private Optional<UserDTO> findByID(@PathVariable("userID") long id){
+    public Optional<UserDTO> findByID(@PathVariable("userID") long id){
         return userService.findByID(id);
     }
 }

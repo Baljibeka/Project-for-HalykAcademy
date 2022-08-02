@@ -1,17 +1,14 @@
 package com.company.FinalProject.dto.Author;
 
-import com.company.FinalProject.dto.Book.BookIdDTO;
-import com.company.FinalProject.dto.Genre.GenreDTO;
-import com.company.FinalProject.dto.Genre.GenreIdDTO;
 import com.company.FinalProject.entity.Author;
+import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.entity.Genre;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthorDTO {
@@ -20,17 +17,15 @@ public class AuthorDTO {
     private String name;
     private String patronymic;
     private LocalDate dateOfBirth;
-    private List<BookIdDTO> authorsBooksList;
-    private List<GenreIdDTO> authorsGenresList;
+    private List<Long> authorsBooksList;
+    private List<Long> authorsGenresList;
 
-    public Author convertToEntity() {
+    public Author convertToEntity(List<Genre> genreList, List<Book> bookList) {
         Author author = new Author();
         author.setName(this.getName());
         author.setId(this.getId());
-        if(this.authorsBooksList!=null)
-            author.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(BookIdDTO::convertToEntity).toList());
-        if(this.getAuthorsGenresList()!=null)
-            author.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(GenreIdDTO::convertToEntity).toList());
+        author.setAuthorsBooksList(bookList);
+        author.setAuthorsGenresList(genreList);
         author.setPatronymic(this.getPatronymic());
         author.setSurname(this.getSurname());
         author.setDateOfBirth(this.getDateOfBirth());

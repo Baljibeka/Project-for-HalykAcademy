@@ -4,7 +4,10 @@ import com.company.FinalProject.dto.Author.AuthorDTO;
 import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.repo.AuthorRepository;
+import com.company.FinalProject.repo.BookRepository;
+import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.services.AuthorService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -16,15 +19,21 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepo;
+    private final BookRepository bookRepo;
+    private final GenreRepository genreRepo;
 
     @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepo) {
+    public AuthorServiceImpl(AuthorRepository authorRepo, BookRepository bookRepo, GenreRepository genreRepo) {
         this.authorRepo = authorRepo;
+        this.bookRepo=bookRepo;
+        this.genreRepo=genreRepo;
     }
 
 
-    public AuthorResponseDTO create(AuthorResponseDTO authorResponseDTO) {
-        Author author = authorResponseDTO.convertToEntity();
+    public AuthorResponseDTO create(AuthorDTO authorDTO) {
+        val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
+        val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
+        Author author = authorDTO.convertToEntity(genres, books);
         Author authorCreated = authorRepo.save(author);
         return authorCreated.convertToResponseDTO();
     }
@@ -33,8 +42,10 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepo.deleteById(id);
     }
 
-    public void update(AuthorDTO authorDTO, long id) {
-        Author author = authorDTO.convertToEntity();
+    public void update(AuthorDTO authorDTO) {
+        val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
+        val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
+        Author author = authorDTO.convertToEntity(genres, books);
         Author existingAuthor = null;
         try {
             existingAuthor = authorRepo.findById(author.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);

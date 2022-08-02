@@ -49,16 +49,14 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    private AuthorResponseDTO save(@RequestBody AuthorResponseDTO authorResponseDTO) {
-        return authorService.create(authorResponseDTO);
+    private AuthorResponseDTO save(@RequestBody AuthorDTO authorDTO) {
+        return authorService.create(authorDTO);
     }
 
-    @PutMapping("/author/{authorID}")
-    private void updateBook(@RequestBody AuthorDTO authorDTO, @PathVariable("authorID") long id) {
-        if (!Objects.equals(id, authorDTO.getId())) {
-            throw new IllegalArgumentException("IDs don't match");
-        }
-        authorService.update(authorDTO, id);
+    @PutMapping("/author")
+    private void updateBook(@RequestBody AuthorDTO authorDTO) {
+
+        authorService.update(authorDTO);
     }
 
 }

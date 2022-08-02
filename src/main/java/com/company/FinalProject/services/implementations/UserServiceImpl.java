@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserResponseDTO userResponseDTO, long id) {
+    public void update(UserResponseDTO userResponseDTO) {
         User user=userResponseDTO.convertToEntity();
         User existingUser=null;
         try {
