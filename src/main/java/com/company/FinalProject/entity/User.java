@@ -35,7 +35,7 @@ public class User {
     @Column(name="role")
     private UserRole role;
     @Column(name="status")
-    private Boolean status;
+    private Boolean isBlocked;
 
     public UserDTO convertToDTO(){
         UserDTO userDTO=new UserDTO();

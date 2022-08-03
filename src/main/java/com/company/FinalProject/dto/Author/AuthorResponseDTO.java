@@ -1,6 +1,5 @@
 package com.company.FinalProject.dto.Author;
 
-import com.company.FinalProject.dto.Book.BookResponseDTO;
 import com.company.FinalProject.dto.Genre.GenreDTO;
 import com.company.FinalProject.entity.Author;
 

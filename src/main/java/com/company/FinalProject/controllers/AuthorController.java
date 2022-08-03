@@ -49,7 +49,7 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    private AuthorResponseDTO save(@RequestBody AuthorDTO authorDTO) {
+    private AuthorResponseDTO save(@RequestBody AuthorDTO authorDTO) throws Exception {
         return authorService.create(authorDTO);
     }
 

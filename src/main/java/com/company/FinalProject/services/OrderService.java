@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderService {
-    OrderResponseDTO create(OrderDTO orderDTO);
-    void update(OrderDTO orderDTO);
+    void create(OrderDTO orderDTO) throws Exception;
+    void update(OrderDTO orderDTO) throws Exception;
     void delete(long id);
     List<OrderResponseDTO> getAll();
     Optional<OrderResponseDTO> getByID(long id);

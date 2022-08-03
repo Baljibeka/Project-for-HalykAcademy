@@ -20,11 +20,11 @@ public class OrderController {
         this.orderService = orderService;
     }
     @PostMapping("/order")
-    public OrderResponseDTO create(@RequestBody OrderDTO orderDTO){
-        return orderService.create(orderDTO);
+    public void create(@RequestBody OrderDTO orderDTO) throws Exception {
+        orderService.create(orderDTO);
     }
     @PutMapping("order")
-    public void update(@RequestBody OrderDTO orderDTO){
+    public void update(@RequestBody OrderDTO orderDTO) throws Exception {
         orderService.update(orderDTO);
     }
     @DeleteMapping("/order/{orderID}")

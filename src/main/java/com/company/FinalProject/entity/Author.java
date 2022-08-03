@@ -68,9 +68,9 @@ public class Author {
         authorResponseDTO.setName(this.getName());
         authorResponseDTO.setSurname(this.getSurname());
         authorResponseDTO.setId(this.getId());
+        authorResponseDTO.setGenreList(this.getAuthorsGenresList().stream().map(Genre::convertToDto).toList());
         authorResponseDTO.setPatronymic(this.getPatronymic());
         authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
         return authorResponseDTO;
     }
-
 }

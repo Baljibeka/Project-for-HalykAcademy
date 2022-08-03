@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,8 +35,8 @@ public class AuthorServiceImpl implements AuthorService {
         val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
         val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
         Author author = authorDTO.convertToEntity(genres, books);
-        Author authorCreated = authorRepo.save(author);
-        return authorCreated.convertToResponseDTO();
+        return authorRepo.save(author).convertToResponseDTO();
+
     }
 
     public void delete(long id) {
@@ -53,6 +54,8 @@ public class AuthorServiceImpl implements AuthorService {
             existingAuthor.setSurname(author.getSurname());
             existingAuthor.setPatronymic(author.getPatronymic());
             existingAuthor.setDateOfBirth(author.getDateOfBirth());
+            existingAuthor.setAuthorsBooksList(author.getAuthorsBooksList());
+            existingAuthor.setAuthorsGenresList(author.getAuthorsGenresList());
             authorRepo.save(author);
         } catch (ChangeSetPersister.NotFoundException e) {
             e.printStackTrace();
