@@ -2,20 +2,15 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Author.AuthorDTO;
 import com.company.FinalProject.dto.Author.AuthorResponseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@Table(name="AUTHOR")
 public class Author {
     @Id
     @SequenceGenerator(

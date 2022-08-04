@@ -29,13 +29,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void create(OrderDTO orderDTO) throws Exception {
         int priceOfBooks=0;
+        int existingBooks=0;
         val books=bookRepo.findAllById(orderDTO.getBooks());
         val users=userRepo.findById(orderDTO.getUser()).orElseThrow();
         Order order=orderDTO.convertToEntity(users, books);
         for(Book book:order.getBooks()){
             priceOfBooks+=book.getPrice();
+            if(bookRepo.existsById(book.getId()))
+                existingBooks+=1;
         }
-        if(priceOfBooks<10000 && order.getUser().getIsBlocked()==false)
+        if(priceOfBooks<10000 && order.getUser().getIsBlocked()==false && existingBooks==order.getBooks().size())
             orderRepo.save(order);
         else
             throw new Exception("Price of the books is higher than 10K and is " + priceOfBooks + " or User is blocked");
@@ -44,23 +47,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void update(OrderDTO orderDTO) throws Exception {
         int priceOfBooks=0;
+        int existingBooks=0;
         val books=bookRepo.findAllById(orderDTO.getBooks());
         val users=userRepo.findById(orderDTO.getUser()).orElseThrow();
         Order order=orderDTO.convertToEntity(users, books);
-        Order existingOrder = null;
+        for (Book book : order.getBooks()) {
+            priceOfBooks += book.getPrice();
+            if(bookRepo.existsById(book.getId()))
+                existingBooks+=1;
+        }
         if(order.getUser().getIsBlocked()==false) {
-            existingOrder = orderRepo.findById(order.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingOrder.setCreatedAt(order.getCreatedAt());
-            for (Book book : order.getBooks()) {
-                priceOfBooks += book.getPrice();
-            }
-            if (priceOfBooks < 10000)
-                existingOrder.setBooks(order.getBooks());
-            else
-                throw new Exception("Price of the books is higher than 10K and is " + priceOfBooks);
-            existingOrder.setStatus(order.getStatus());
-            existingOrder.setUser(order.getUser());
+            if(existingBooks==order.getBooks().size() && priceOfBooks < 10000)
             orderRepo.save(order);
+            else
+                throw new Exception("Price of the books is higher than 10K and is " + priceOfBooks + " or book is deleted");
         }
         else throw new Exception("User is blocked");
     }

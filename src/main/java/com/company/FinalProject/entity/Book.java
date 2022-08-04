@@ -2,19 +2,13 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Book.BookDTO;
 import com.company.FinalProject.dto.Book.BookResponseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Table(name = "BOOK")
 public class Book {
     @Id

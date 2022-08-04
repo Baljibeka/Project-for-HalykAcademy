@@ -47,19 +47,7 @@ public class AuthorServiceImpl implements AuthorService {
         val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
         val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
         Author author = authorDTO.convertToEntity(genres, books);
-        Author existingAuthor = null;
-        try {
-            existingAuthor = authorRepo.findById(author.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingAuthor.setName(author.getName());
-            existingAuthor.setSurname(author.getSurname());
-            existingAuthor.setPatronymic(author.getPatronymic());
-            existingAuthor.setDateOfBirth(author.getDateOfBirth());
-            existingAuthor.setAuthorsBooksList(author.getAuthorsBooksList());
-            existingAuthor.setAuthorsGenresList(author.getAuthorsGenresList());
-            authorRepo.save(author);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            e.printStackTrace();
-        }
+        authorRepo.save(author);
     }
 
     @Override

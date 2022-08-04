@@ -48,19 +48,7 @@ public class BookServiceImpl implements BookService {
         val genres=genreRepo.findAllById(bookDTO.getGenreList());
         val publishers=publisherRepo.findById(bookDTO.getPublisherId()).orElseThrow();
         Book book = bookDTO.convertToEntity(publishers, genres, authors);
-        Book existingBook = null;
-        try {
-            existingBook = bookRepo.findById(book.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingBook.setName(book.getName());
-            existingBook.setNumberOfPages(book.getNumberOfPages());
-            existingBook.setYearOfIssue(book.getYearOfIssue());
-            existingBook.setPublisher(book.getPublisher());
-            existingBook.setAuthorList(book.getAuthorList());
-            existingBook.setPrice(book.getPrice());
-            bookRepo.save(book);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            e.printStackTrace();
-        }
+        bookRepo.save(book);
     }
 
     @Override

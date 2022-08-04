@@ -46,15 +46,7 @@ public class PublisherServiceImpl implements PublisherService {
     public void update(PublisherDTO publisherDTO) {
         val books=bookRepo.findAllById(publisherDTO.getPublishedBooks());
         Publisher publisher=publisherDTO.convertToEntity(books);
-        Publisher existingPublisher = null;
-        try {
-            existingPublisher = publisherRepo.findById(publisher.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingPublisher.setName(publisher.getName());
-            existingPublisher.setPublishedBooksList(publisher.getPublishedBooksList());
             publisherRepo.save(publisher);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

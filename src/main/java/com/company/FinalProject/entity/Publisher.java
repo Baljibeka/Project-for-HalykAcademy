@@ -2,18 +2,12 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Publisher.PublisherDTO;
 import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Table(name = "PUBLISHER")
 public class Publisher {
     @Id

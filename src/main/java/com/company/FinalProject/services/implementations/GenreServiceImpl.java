@@ -33,17 +33,7 @@ public class GenreServiceImpl implements GenreService {
     public void update(GenreDTO genreDTO) {
         Genre genre=genreDTO.convertToEntity();
         Genre existingGenre;
-        try {
-            existingGenre = (Genre) genreRepo.findById(genre.getId()).
-                    orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingGenre.setName(genre.getName());
-            existingGenre.setId(genre.getId());
-            genreRepo.save(genre);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            e.printStackTrace();
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+        genreRepo.save(genre);
     }
 
     @Override

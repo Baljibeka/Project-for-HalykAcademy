@@ -33,16 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(UserResponseDTO userResponseDTO) {
         User user=userResponseDTO.convertToEntity();
-        User existingUser=null;
-        try {
-            existingUser = userRepository.findById(user.getId()).orElseThrow(ChangeSetPersister.NotFoundException::new);
-            existingUser.setLogin(user.getLogin());
-            existingUser.setPassword(user.getPassword());
-            existingUser.setRole(user.getRole());
-            userRepository.save(user);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            e.printStackTrace();
-        }
+        userRepository.save(user);
     }
 
     @Override
