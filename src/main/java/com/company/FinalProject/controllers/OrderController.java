@@ -20,7 +20,7 @@ public class OrderController {
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-    @PostMapping("/order")
+    @PostMapping("order")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void create(@RequestBody OrderDTO orderDTO) throws Exception {
         orderService.create(orderDTO);
@@ -35,12 +35,15 @@ public class OrderController {
     public void delete(@PathVariable("orderID") long id){
         orderService.delete(id);
     }
-    @GetMapping("/order")
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
+    @GetMapping
     public List<OrderResponseDTO> getAll(){
         return orderService.getAll();
     }
-    @GetMapping("/order/{orderID}")
+
     @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/order/{orderID}")
     public Optional<OrderResponseDTO> getByID(@PathVariable("orderID") long id){
         return orderService.getByID(id);
     }

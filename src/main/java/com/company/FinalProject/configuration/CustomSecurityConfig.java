@@ -20,18 +20,22 @@ public class CustomSecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/orders/order").permitAll()
-                .antMatchers(HttpMethod.GET, "/authors/author").permitAll()
+                .antMatchers(HttpMethod.GET, "/orders").permitAll()
+                .antMatchers("/orders/order/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/authors").permitAll()
                 .antMatchers("/authors/author/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/books/book").permitAll()
+                .antMatchers(HttpMethod.GET, "/books").permitAll()
                 .antMatchers("/books/book/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/genres/genre").permitAll()
+                .antMatchers(HttpMethod.GET, "/genres").permitAll()
                 .antMatchers("/genres/genre/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/publishers").permitAll()
+                .antMatchers("publishers/publisher/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users").permitAll()
+                .antMatchers("users/user/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
                 .and().httpBasic();
         return http.build();
-// убрать хасаусорити и повесить аннотации на контроллер
     }
 }

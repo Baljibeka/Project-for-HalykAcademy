@@ -21,39 +21,46 @@ public class AuthorController {
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
+
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping
     public List<AuthorDTO> getAll() {
         return authorService.getAll();
     }
 
-    @GetMapping("{authorID}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/author/{authorID}")
     private Optional<AuthorDTO> getAuthorById(@PathVariable("authorID") long id) {
         return authorService.findById(id);
     }
 
-    @GetMapping("/name/{authorName}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/author/name/{authorName}")
     private List<AuthorDTO> getAuthorByName(@PathVariable("authorName") String name) {
         return authorService.findByFIO(name);
     }
 
-    @GetMapping("/genre/{genreName}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/author/genre/{genreName}")
     private List<AuthorResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
     {
         return authorService.getByGenreName(genreName);
 
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/author/{authorID}")
     private void deleteAuthorById(@PathVariable("authorID") long id) {
         authorService.delete(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/author")
     private AuthorResponseDTO save(@RequestBody AuthorDTO authorDTO) throws Exception {
         return authorService.create(authorDTO);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/author")
     private void updateBook(@RequestBody AuthorDTO authorDTO) {
 

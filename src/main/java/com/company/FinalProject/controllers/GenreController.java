@@ -3,6 +3,7 @@ package com.company.FinalProject.controllers;
 import com.company.FinalProject.dto.Genre.GenreDTO;
 import com.company.FinalProject.services.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,19 +19,26 @@ public class GenreController {
         this.genreService=genreService;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/genre")
     public GenreDTO create(@RequestBody GenreDTO genreDTO){
         return genreService.create(genreDTO);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/genre/{genreID}")
     public void delete(@PathVariable("genreID") long id){
         genreService.delete(id);
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/genre")
     public void update(@RequestBody GenreDTO genreDTO){
         genreService.update(genreDTO);
     }
-    @GetMapping("/genre")
+
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping
     public List<GenreDTO> getAll(){
         return genreService.getAll();
     }
