@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @RequiredArgsConstructor
 @Table(name="users")
-public class User {
+public class User { //заимплементить от юзердетэйлс
     @Id
     @SequenceGenerator(
         name="user_sequence",
@@ -28,6 +28,7 @@ public class User {
     @Column(name="password")
     private String password;
     @Column(name="role")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
     @Column(name="status")
     private Boolean isBlocked;

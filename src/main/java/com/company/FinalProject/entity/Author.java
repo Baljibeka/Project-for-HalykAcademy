@@ -44,7 +44,7 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> authorsGenresList;
-
+//getgenres по книгам и собрать жанры
     public AuthorDTO convertToDto() {
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setName(this.getName());

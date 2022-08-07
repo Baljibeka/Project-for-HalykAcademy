@@ -4,6 +4,7 @@ import com.company.FinalProject.dto.Author.AuthorDTO;
 import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import com.company.FinalProject.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,23 +21,23 @@ public class AuthorController {
     public AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
-
-    @GetMapping("/author")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping
     public List<AuthorDTO> getAll() {
         return authorService.getAll();
     }
 
-    @GetMapping("/author/{authorID}")
+    @GetMapping("{authorID}")
     private Optional<AuthorDTO> getAuthorById(@PathVariable("authorID") long id) {
         return authorService.findById(id);
     }
 
-    @GetMapping("/author/name/{authorName}")
+    @GetMapping("/name/{authorName}")
     private List<AuthorDTO> getAuthorByName(@PathVariable("authorName") String name) {
         return authorService.findByFIO(name);
     }
 
-    @GetMapping("/author/genre/{genreName}")
+    @GetMapping("/genre/{genreName}")
     private List<AuthorResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
     {
         return authorService.getByGenreName(genreName);

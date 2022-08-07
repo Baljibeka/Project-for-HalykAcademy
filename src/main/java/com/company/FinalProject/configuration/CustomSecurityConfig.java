@@ -21,30 +21,17 @@ public class CustomSecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/orders/order").permitAll()
-                .antMatchers("/orders/order/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/authors/author").permitAll()
                 .antMatchers("/authors/author/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/books/book").permitAll()
                 .antMatchers("/books/book/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/genres/genre").permitAll()
                 .antMatchers("/genres/genre/**").hasAuthority("ADMIN")
-                .and().formLogin();
-
-//        return http.csrf().disable().authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/orders/order").authenticated()
-//                .antMatchers( "/orders/order/**").hasAuthority("ADMIN")
-//                .and().httpBasic(Customizer.withDefaults()).build();
-
-
-
-
-
+                .anyRequest()
+                .authenticated()
+                .and().formLogin()
+                .and().httpBasic();
         return http.build();
-
-
-
-
+// убрать хасаусорити и повесить аннотации на контроллер
     }
-
-
 }
