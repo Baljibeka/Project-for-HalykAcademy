@@ -24,8 +24,8 @@ public class UserController {
         return userService.getAll();
     }
     @PostMapping("user")
-    public UserResponseDTO create(@RequestBody UserResponseDTO userResponseDTO){
-        return userService.create(userResponseDTO);
+    public void create(@RequestBody UserResponseDTO userResponseDTO){
+       userService.create(userResponseDTO);
     }
     @PutMapping("/user")
     public void update(@RequestBody UserResponseDTO userResponseDTO){

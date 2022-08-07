@@ -5,10 +5,7 @@ import com.company.FinalProject.entity.UserRole;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @ToString
 public class UserDTO {
     private long id;

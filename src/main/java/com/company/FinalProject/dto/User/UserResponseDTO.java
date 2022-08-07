@@ -3,13 +3,9 @@ package com.company.FinalProject.dto.User;
 import com.company.FinalProject.entity.User;
 import com.company.FinalProject.entity.UserRole;
 import lombok.*;
-
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserResponseDTO {
     private long id;
     private String login;

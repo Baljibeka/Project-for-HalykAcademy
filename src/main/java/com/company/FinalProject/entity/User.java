@@ -2,18 +2,13 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.dto.User.UserResponseDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name="users")
 public class User {
     @Id
@@ -37,6 +32,20 @@ public class User {
     @Column(name="status")
     private Boolean isBlocked;
 
+    public User(long id, String login, String password, UserRole role) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
+    public User(Long id, String login, String password) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+    }
+
+
     public UserDTO convertToDTO(){
         UserDTO userDTO=new UserDTO();
         userDTO.setId(this.getId());
@@ -44,7 +53,6 @@ public class User {
         userDTO.setRole(this.getRole());
         return userDTO;
     }
-
     public UserResponseDTO convertToResponseDTO(){
         UserResponseDTO userResponseDTO=new UserResponseDTO();
         userResponseDTO.setId(this.getId());
