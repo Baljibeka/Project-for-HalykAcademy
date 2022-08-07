@@ -2,6 +2,8 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Author.AuthorDTO;
 import com.company.FinalProject.dto.Author.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorShortDTO;
+import com.company.FinalProject.dto.Book.BookShortDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,20 +40,20 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
-    @ManyToMany
-    @JoinTable(
-            name = "author_genre",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private List<Genre> authorsGenresList;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "author_genre",
+//            joinColumns = @JoinColumn(name = "author_id"),
+//            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+//    private List<Genre> authorsGenresList;
 //getgenres по книгам и собрать жанры
+
     public AuthorDTO convertToDto() {
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setName(this.getName());
         authorDTO.setSurname(this.getSurname());
         authorDTO.setId(this.getId());
         authorDTO.setPatronymic(this.getPatronymic());
-        authorDTO.setAuthorsGenresList(this.getAuthorsGenresList().stream().map(Genre::getId).toList());
         authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::getId).toList());
         authorDTO.setDateOfBirth(this.getDateOfBirth());
 
@@ -60,12 +62,20 @@ public class Author {
 
     public AuthorResponseDTO convertToResponseDTO(){
         AuthorResponseDTO authorResponseDTO=new AuthorResponseDTO();
+        authorResponseDTO.setId(this.getId());
         authorResponseDTO.setName(this.getName());
         authorResponseDTO.setSurname(this.getSurname());
-        authorResponseDTO.setId(this.getId());
-        authorResponseDTO.setGenreList(this.getAuthorsGenresList().stream().map(Genre::convertToDto).toList());
         authorResponseDTO.setPatronymic(this.getPatronymic());
         authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
+        authorResponseDTO.setBooksList(this.getAuthorsBooksList().stream().map(Book::convertToShortDTO).toList());
         return authorResponseDTO;
+    }
+    public AuthorShortDTO convertToShortDTO(){
+        AuthorShortDTO authorShortDTO = new AuthorShortDTO();
+        authorShortDTO.setId(this.getId());
+        authorShortDTO.setName(this.getName());
+        authorShortDTO.setPatronymic(this.getPatronymic());
+        authorShortDTO.setSurname(this.getSurname());
+        return authorShortDTO;
     }
 }

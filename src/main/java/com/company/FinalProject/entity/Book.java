@@ -2,6 +2,7 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Book.BookDTO;
 import com.company.FinalProject.dto.Book.BookResponseDTO;
+import com.company.FinalProject.dto.Book.BookShortDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -68,7 +69,15 @@ public class Book {
         bookResponseDTO.setPublisher(this.getPublisher().convertToResponseDto());
         bookResponseDTO.setNumberOfPages(this.getNumberOfPages());
         bookResponseDTO.setYearOfIssue(this.getYearOfIssue());
+        bookResponseDTO.setAuthorsList(this.getAuthorList().stream().map(Author::convertToShortDTO).toList());
         bookResponseDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
         return bookResponseDTO;
+    }
+    public BookShortDTO convertToShortDTO(){
+        BookShortDTO bookShortDTO = new BookShortDTO();
+        bookShortDTO.setId(this.getId());
+        bookShortDTO.setName(this.getName());
+        bookShortDTO.setPrice(this.getPrice());
+        return bookShortDTO;
     }
 }

@@ -18,14 +18,12 @@ public class AuthorDTO {
     private String patronymic;
     private LocalDate dateOfBirth;
     private List<Long> authorsBooksList;
-    private List<Long> authorsGenresList;
 
-    public Author convertToEntity(List<Genre> genreList, List<Book> bookList) {
+    public Author convertToEntity(List<Book> bookList) {
         Author author = new Author();
         author.setName(this.getName());
         author.setId(this.getId());
         author.setAuthorsBooksList(bookList);
-        author.setAuthorsGenresList(genreList);
         author.setPatronymic(this.getPatronymic());
         author.setSurname(this.getSurname());
         author.setDateOfBirth(this.getDateOfBirth());

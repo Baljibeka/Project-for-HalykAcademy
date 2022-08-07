@@ -9,7 +9,6 @@ import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.BookService;
 import lombok.val;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +30,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookResponseDTO create(BookResponseDTO bookResponseDTO) {
-        Book book = bookResponseDTO.convertToEntity();
+    public BookResponseDTO create(BookDTO bookDTO) {
+        val authors=authorRepo.findAllById(bookDTO.getAuthorList());
+        val genres=genreRepo.findAllById(bookDTO.getGenreList());
+        val publishers=publisherRepo.findById(bookDTO.getPublisherId()).orElseThrow();
+        Book book = bookDTO.convertToEntity(publishers, genres, authors);
         Book bookCreated = bookRepo.save(book);
         return bookCreated.convertToResponseDto();
     }
@@ -52,18 +54,18 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<BookDTO> findById(long id) {
-        return bookRepo.findById(id).map(Book::convertToDto);
+    public Optional<BookResponseDTO> findById(long id) {
+        return bookRepo.findById(id).map(Book::convertToResponseDto);
     }
 
     @Override
-    public List<BookDTO> getAll() {
-        return bookRepo.findAll().stream().map(Book::convertToDto).collect(Collectors.toList());
+    public List<BookResponseDTO> getAll() {
+        return bookRepo.findAll().stream().map(Book::convertToResponseDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<BookDTO> getByNameContaining(String name) {
-        return  bookRepo.findByNameIsContainingIgnoreCase(name).stream().map(Book::convertToDto).collect(Collectors.toList());
+    public List<BookResponseDTO> getByNameContaining(String name) {
+        return  bookRepo.findByNameIsContainingIgnoreCase(name).stream().map(Book::convertToResponseDto).collect(Collectors.toList());
     }
 
     @Override

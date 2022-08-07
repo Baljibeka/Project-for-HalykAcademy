@@ -7,12 +7,11 @@ import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.services.AuthorService;
+import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,22 +20,16 @@ import java.util.stream.Collectors;
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepo;
     private final BookRepository bookRepo;
-    private final GenreRepository genreRepo;
 
-    @Autowired
-    public AuthorServiceImpl(AuthorRepository authorRepo, BookRepository bookRepo, GenreRepository genreRepo) {
+    public AuthorServiceImpl(AuthorRepository authorRepo, BookRepository bookRepo) {
         this.authorRepo = authorRepo;
-        this.bookRepo=bookRepo;
-        this.genreRepo=genreRepo;
+        this.bookRepo = bookRepo;
     }
 
-
-    public AuthorResponseDTO create(AuthorDTO authorDTO) {
+    public void create(AuthorDTO authorDTO) {
         val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
-        val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
-        Author author = authorDTO.convertToEntity(genres, books);
-        return authorRepo.save(author).convertToResponseDTO();
-
+        Author author = authorDTO.convertToEntity(books);
+        authorRepo.save(author).convertToResponseDTO();
     }
 
     public void delete(long id) {
@@ -45,24 +38,23 @@ public class AuthorServiceImpl implements AuthorService {
 
     public void update(AuthorDTO authorDTO) {
         val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
-        val genres = genreRepo.findAllById(authorDTO.getAuthorsGenresList());
-        Author author = authorDTO.convertToEntity(genres, books);
+        Author author = authorDTO.convertToEntity(books);
         authorRepo.save(author);
     }
 
     @Override
-    public Optional<AuthorDTO> findById(long id) {
-        return authorRepo.findById(id).map(Author::convertToDto);
+    public Optional<AuthorResponseDTO> findById(long id) {
+        return authorRepo.findById(id).map(Author::convertToResponseDTO);
     }
 
     @Override
-    public List<AuthorDTO> findByFIO(String name) {
-        return authorRepo.findByName(name).stream().map(Author::convertToDto).collect(Collectors.toList());
+    public List<AuthorResponseDTO> findByFIO(String name) {
+        return authorRepo.findByName(name).stream().map(Author::convertToResponseDTO).collect(Collectors.toList());
     }
-    public List<AuthorDTO> getAll(){
+    public List<AuthorResponseDTO> getAll(){
         List<Author> authors = authorRepo.findAll();
         return authors.stream()
-                .map(Author::convertToDto)
+                .map(Author::convertToResponseDTO)
                 .collect(Collectors.toList());
     }
 

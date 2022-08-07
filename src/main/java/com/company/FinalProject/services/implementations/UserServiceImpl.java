@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public void create(UserResponseDTO userResponseDTO) {
         userRepository.saveAndFlush(
                 new User(
-                        null,
+                        userResponseDTO.getId(),
                         userResponseDTO.getLogin(),
                         passwordEncoder.encode(userResponseDTO.getPassword())
                 )
@@ -36,8 +36,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserResponseDTO userResponseDTO) {
-        User user=userResponseDTO.convertToEntity();
-        userRepository.save(user);
+        userRepository.save(new User(
+                userResponseDTO.getId(),
+                userResponseDTO.getLogin(),
+                passwordEncoder.encode(userResponseDTO.getPassword())
+        ));
     }
 
     @Override

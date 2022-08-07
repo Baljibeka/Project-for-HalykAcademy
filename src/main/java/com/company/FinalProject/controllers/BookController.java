@@ -23,20 +23,20 @@ public class BookController {
     }
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public List<BookDTO> getAll(){
+    public List<BookResponseDTO> getAll(){
         return bookService.getAll();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book/{bookID}")
-    public Optional<BookDTO> getBookById(@PathVariable("bookID") long id)
+    public Optional<BookResponseDTO> getBookById(@PathVariable("bookID") long id)
     {
         return bookService.findById(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book/name/{bookName}")
-    public List<BookDTO> getBookByName(@PathVariable("bookName") String name) {
+    public List<BookResponseDTO> getBookByName(@PathVariable("bookName") String name) {
         return bookService.getByNameContaining(name);
     }
 
@@ -57,8 +57,8 @@ public class BookController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/book")
-    public BookResponseDTO saveBook(@RequestBody BookResponseDTO bookResponseDTO){
-        return bookService.create(bookResponseDTO);
+    public BookResponseDTO saveBook(@RequestBody BookDTO bookDTO){
+        return bookService.create(bookDTO);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
