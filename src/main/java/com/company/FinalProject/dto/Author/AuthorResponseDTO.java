@@ -7,6 +7,8 @@ import com.company.FinalProject.entity.Author;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.entity.Genre;
 import lombok.*;
 
 
@@ -21,7 +23,7 @@ public class AuthorResponseDTO {
     private String patronymic;
     private LocalDate dateOfBirth;
     private List<BookShortDTO> booksList;
-
+    private List<GenreDTO> genreList;
     public Author convertToEntity(){
         Author author = new Author();
         author.setName(this.getName());
@@ -30,6 +32,7 @@ public class AuthorResponseDTO {
         author.setSurname(this.getSurname());
         author.setDateOfBirth(this.getDateOfBirth());
         author.setAuthorsBooksList(this.getBooksList().stream().map(BookShortDTO::convertToEntity).toList());
+        author.setGenresList(this.getGenreList().stream().map(GenreDTO::convertToEntity).toList());
         return author;
     }
 }

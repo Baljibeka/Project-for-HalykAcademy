@@ -1,5 +1,6 @@
 package com.company.FinalProject.controllers;
 
+import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.dto.User.UserResponseDTO;
 import com.company.FinalProject.services.UserService;
@@ -26,17 +27,22 @@ public class UserController {
     public List<UserDTO> getAll(){
         return userService.getAll();
     }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
+//поправить update и креэйт на юзера и исправить ордеры
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @PostMapping("user")
     public void create(@RequestBody UserResponseDTO userResponseDTO){
        userService.create(userResponseDTO);
     }
-
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/user")
     public void update(@RequestBody UserResponseDTO userResponseDTO){
         userService.update(userResponseDTO);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/user/admin")
+    public void adminUpdate(@RequestBody UserAdminDTO userAdminDTO){
+        userService.adminUpdate(userAdminDTO);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -47,7 +53,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user/{userID}")
-    public Optional<UserDTO> findByID(@PathVariable("userID") long id){
+    public UserDTO findByID(@PathVariable("userID") long id){
         return userService.findByID(id);
     }
 }

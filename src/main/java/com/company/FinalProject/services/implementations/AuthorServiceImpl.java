@@ -2,18 +2,18 @@ package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.Author.AuthorDTO;
 import com.company.FinalProject.dto.Author.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorShortDTO;
 import com.company.FinalProject.entity.Author;
+import com.company.FinalProject.entity.Book;
+import com.company.FinalProject.entity.Genre;
 import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.repo.BookRepository;
-import com.company.FinalProject.repo.GenreRepository;
 import com.company.FinalProject.services.AuthorService;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,26 +41,46 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorDTO.convertToEntity(books);
         authorRepo.save(author);
     }
-
+    public void addingGenres(Author author){
+        for(Book book:author.getAuthorsBooksList()){
+            for(Genre genre:book.getBooksGenresList()){
+                if(!author.getGenresList().contains(genre)){
+                    author.getGenresList().add(genre);
+                }
+            }
+        }
+    }
     @Override
-    public Optional<AuthorResponseDTO> findById(long id) {
-        return authorRepo.findById(id).map(Author::convertToResponseDTO);
+    public AuthorResponseDTO findById(long id) {
+        Author author = authorRepo.findById(id).orElseThrow();
+        addingGenres(author);
+        return author.convertToResponseDTO();
     }
 
     @Override
     public List<AuthorResponseDTO> findByFIO(String name) {
-        return authorRepo.findByName(name).stream().map(Author::convertToResponseDTO).collect(Collectors.toList());
+        String fio="%" + name + "%";
+        List<Author> authors = authorRepo.findByFIO(fio, fio, fio);
+        for(Author author:authors) {
+            addingGenres(author);
+        }
+        return authors.stream().map(Author::convertToResponseDTO).collect(Collectors.toList());
     }
+
+    @Override
     public List<AuthorResponseDTO> getAll(){
         List<Author> authors = authorRepo.findAll();
+        for(Author author:authors){
+            addingGenres(author);
+        }
         return authors.stream()
                 .map(Author::convertToResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AuthorResponseDTO> getByGenreName(String genreName) {
-        return authorRepo.findAllByGenre(genreName).stream().map(Author::convertToResponseDTO).toList();
+    public Set<AuthorShortDTO> getByGenreName(List<String> genreName) {
+        return authorRepo.findAllByGenresListIsContainingIgnoreCase(genreName).stream().map(Author::convertToShortDTO).collect(Collectors.toSet());
     }
 }
 

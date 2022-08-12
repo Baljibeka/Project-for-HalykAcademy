@@ -1,5 +1,6 @@
 package com.company.FinalProject.services;
 
+import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.dto.User.UserResponseDTO;
 
@@ -11,5 +12,6 @@ public interface UserService {
     void create(UserResponseDTO userResponseDTO);
     void update(UserResponseDTO userResponseDTO);
     void delete(long id);
-    Optional<UserDTO> findByID(long id);
+    UserDTO findByID(long id);
+    void adminUpdate(UserAdminDTO userAdminDTO);
 }

@@ -1,15 +1,18 @@
 package com.company.FinalProject.services.implementations;
 
+import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.dto.User.UserResponseDTO;
 import com.company.FinalProject.entity.User;
 import com.company.FinalProject.repo.UserRepository;
 import com.company.FinalProject.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,11 +39,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserResponseDTO userResponseDTO) {
-        userRepository.save(new User(
-                userResponseDTO.getId(),
-                userResponseDTO.getLogin(),
-                passwordEncoder.encode(userResponseDTO.getPassword())
-        ));
+        User user = userRepository.findById(userResponseDTO.getId()).orElseThrow();
+        if (Objects.equals(SecurityContextHolder.getContext().getAuthentication().getName(), user.getLogin())) {
+            userRepository.save(new User(
+                    userResponseDTO.getId(),
+                    userResponseDTO.getLogin(),
+                    passwordEncoder.encode(userResponseDTO.getPassword()),
+                    user.getRole(), user.getIsBlocked()
+            ));
+        }
     }
 
     @Override
@@ -49,7 +56,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDTO> findByID(long id) {
-        return userRepository.findById(id).map(User::convertToDTO);
+    public UserDTO findByID(long id) {
+        return userRepository.findById(id).map(User::convertToDTO).orElseThrow();
     }
+
+    @Override
+    public void adminUpdate(UserAdminDTO userAdminDTO) {
+        User user = userRepository.findById(userAdminDTO.getId()).orElseThrow();
+            userRepository.save(new User(
+                    userAdminDTO.getId(),
+                    user.getLogin(), user.getPassword(),
+                    userAdminDTO.getRole(),
+                    userAdminDTO.getIsBlocked()
+            ));
+        }
 }

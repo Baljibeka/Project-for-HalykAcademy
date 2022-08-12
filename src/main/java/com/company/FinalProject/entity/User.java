@@ -1,5 +1,6 @@
 package com.company.FinalProject.entity;
 
+import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
 import com.company.FinalProject.dto.User.UserResponseDTO;
 import lombok.*;
@@ -33,17 +34,24 @@ public class User { //заимплементить от юзердетэйлс
     @Column(name="status")
     private Boolean isBlocked;
 
-    public User(long id, String login, String password, UserRole role) {
+    public User(Long id, String login, String password, UserRole role, Boolean isBlocked) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.role = role;
+        this.isBlocked=isBlocked;
     }
 
     public User(Long id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
+    }
+
+    public User(Long id, UserRole role, Boolean isBlocked) {
+        this.id = id;
+        this.role = role;
+        this.isBlocked = isBlocked;
     }
 
 
@@ -54,12 +62,19 @@ public class User { //заимплементить от юзердетэйлс
         userDTO.setRole(this.getRole());
         return userDTO;
     }
+
     public UserResponseDTO convertToResponseDTO(){
         UserResponseDTO userResponseDTO=new UserResponseDTO();
         userResponseDTO.setId(this.getId());
         userResponseDTO.setPassword(this.getPassword());
         userResponseDTO.setLogin(this.getLogin());
-        userResponseDTO.setRole(this.getRole());
         return userResponseDTO;
+    }
+    public UserAdminDTO convertToEntity(){
+        UserAdminDTO userAdminDTO = new UserAdminDTO();
+        userAdminDTO.setId(this.getId());
+        userAdminDTO.setIsBlocked(this.getIsBlocked());
+        userAdminDTO.setRole(this.getRole());
+        return userAdminDTO;
     }
 }

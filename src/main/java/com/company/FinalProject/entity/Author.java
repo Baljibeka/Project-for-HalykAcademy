@@ -28,6 +28,12 @@ public class Author {
     private Long id;
     @Column(name = "surname")
     private String surname;
+    @ManyToMany
+    @JoinTable(
+            name = "authors_genres",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private List<Genre> genresList;
     @Column(name = "name")
     private String name;
     @Column(name = "patronymic")
@@ -40,25 +46,6 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
-//    @ManyToMany
-//    @JoinTable(
-//            name = "author_genre",
-//            joinColumns = @JoinColumn(name = "author_id"),
-//            inverseJoinColumns = @JoinColumn(name = "genre_id"))
-//    private List<Genre> authorsGenresList;
-//getgenres по книгам и собрать жанры
-
-    public AuthorDTO convertToDto() {
-        AuthorDTO authorDTO = new AuthorDTO();
-        authorDTO.setName(this.getName());
-        authorDTO.setSurname(this.getSurname());
-        authorDTO.setId(this.getId());
-        authorDTO.setPatronymic(this.getPatronymic());
-        authorDTO.setAuthorsBooksList(this.getAuthorsBooksList().stream().map(Book::getId).toList());
-        authorDTO.setDateOfBirth(this.getDateOfBirth());
-
-        return authorDTO;
-    }
 
     public AuthorResponseDTO convertToResponseDTO(){
         AuthorResponseDTO authorResponseDTO=new AuthorResponseDTO();
@@ -68,6 +55,7 @@ public class Author {
         authorResponseDTO.setPatronymic(this.getPatronymic());
         authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
         authorResponseDTO.setBooksList(this.getAuthorsBooksList().stream().map(Book::convertToShortDTO).toList());
+        authorResponseDTO.setGenreList(this.getGenresList().stream().map(Genre::convertToDto).toList());
         return authorResponseDTO;
     }
     public AuthorShortDTO convertToShortDTO(){

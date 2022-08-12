@@ -21,7 +21,7 @@ public class CustomSecurityConfig {
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/orders").permitAll()
-                .antMatchers("/orders/order/**").hasAuthority("ADMIN")
+//                .antMatchers("/orders/order/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/authors").permitAll()
                 .antMatchers("/authors/author/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/books").permitAll()
@@ -31,7 +31,6 @@ public class CustomSecurityConfig {
                 .antMatchers(HttpMethod.GET, "/publishers").permitAll()
                 .antMatchers("publishers/publisher/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/users").permitAll()
-                .antMatchers("users/user/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()

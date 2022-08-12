@@ -20,7 +20,7 @@ public class OrderResponseDTO {
     private UserDTO user;
     private List<BookResponseDTO> books;
     private OrderStatus status;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     public Order convertToEntity(){
         Order order = new Order();

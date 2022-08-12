@@ -10,15 +10,24 @@ import java.util.List;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long> {
-    List<Author> findByName(String name);
-    @Query(value="""
-            SELECT *
-            FROM author b,
-                 author_genre bg,
-                 genre g
-            WHERE b.author_id = bg.author_id
-              and bg.genre_id = g.genre_id
-              and g.name = :genreName
-""",nativeQuery = true)
-    List<Author> findAllByGenre(String genreName);
+    @Query(value = """ 
+            select * 
+            from author a where lower(a.name) like lower(:name)
+            or lower(a.surname) like lower(:surname) 
+             or lower(a.patronymic) like lower(:lastname)
+             """, nativeQuery = true)
+    List<Author> findByFIO(String name, String surname, String lastname);
+
+    @Query(value = """
+                        SELECT *
+                        FROM author a ,
+                        authors_book ab,
+                        book_genre bg,
+                        genre g
+                        WHERE a.author_id = ab.author_id
+                                                and bg.genre_id= g.genre_id
+                                                and ab.book_id= bg.book_id
+                                                and g.name in :genreList
+            """, nativeQuery = true)
+    List<Author> findAllByGenresListIsContainingIgnoreCase(List<String> genreList);
 }

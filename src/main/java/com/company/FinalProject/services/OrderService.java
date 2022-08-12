@@ -1,5 +1,6 @@
 package com.company.FinalProject.services;
 
+import com.company.FinalProject.dto.Order.OrderAdminDTO;
 import com.company.FinalProject.dto.Order.OrderDTO;
 import com.company.FinalProject.dto.Order.OrderResponseDTO;
 
@@ -12,4 +13,6 @@ public interface OrderService {
     void delete(long id);
     List<OrderResponseDTO> getAll();
     Optional<OrderResponseDTO> getByID(long id);
+    void createAdmin(OrderAdminDTO orderAdminDTO) throws Exception;
+    void updateAdmin(OrderAdminDTO orderAdminDTO) throws Exception;
 }
