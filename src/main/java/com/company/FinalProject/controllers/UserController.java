@@ -2,15 +2,13 @@ package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
-import com.company.FinalProject.dto.User.UserResponseDTO;
+import com.company.FinalProject.dto.User.UserFullDTO;
 import com.company.FinalProject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -27,16 +25,16 @@ public class UserController {
     public List<UserDTO> getAll(){
         return userService.getAll();
     }
-//поправить update и креэйт на юзера и исправить ордеры
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+
+    @PreAuthorize("permitAll()")
     @PostMapping("user")
-    public void create(@RequestBody UserResponseDTO userResponseDTO){
-       userService.create(userResponseDTO);
+    public void create(@RequestBody UserFullDTO userFullDTO){
+       userService.create(userFullDTO);
     }
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/user")
-    public void update(@RequestBody UserResponseDTO userResponseDTO){
-        userService.update(userResponseDTO);
+    public void update(@RequestBody UserFullDTO userFullDTO){
+        userService.update(userFullDTO);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

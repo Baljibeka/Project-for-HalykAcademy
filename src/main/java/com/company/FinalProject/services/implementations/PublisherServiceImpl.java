@@ -1,17 +1,16 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.Publisher.PublisherDTO;
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherShortDTO;
 import com.company.FinalProject.entity.Publisher;
+import com.company.FinalProject.exception.NotFoundException;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.repo.PublisherRepository;
 import com.company.FinalProject.services.PublisherService;
 import lombok.val;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,38 +24,37 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public List<PublisherResponseDTO> getAll() {
+    public List<PublisherShortDTO> getAll() {
         return publisherRepo.findAll().stream().map(Publisher::convertToResponseDto).collect(Collectors.toList());
     }
 
 
     @Override
-    public PublisherResponseDTO create(PublisherDTO publisherDTO) {
-        val books=bookRepo.findAllById(publisherDTO.getPublishedBooks());
-        Publisher publisher=publisherDTO.convertToEntity(books);
-        return publisherRepo.save(publisher).convertToResponseDto();
+    public PublisherShortDTO create(PublisherShortDTO publisherShortDTO) {
+        return publisherRepo.save(publisherShortDTO.convertToEntity()).convertToResponseDto();
     }
 
     @Override
     public void delete(long id) {
-        publisherRepo.deleteById(id);
+        Publisher publisher =  publisherRepo.findById(id).orElseThrow(()->new NotFoundException("There is no such publisher"));
+      publisher.setIsBlocked(true);
+        publisherRepo.save(publisher);
     }
 
     @Override
     public void update(PublisherDTO publisherDTO) {
-        val books=bookRepo.findAllById(publisherDTO.getPublishedBooks());
-        Publisher publisher=publisherDTO.convertToEntity(books);
-            publisherRepo.save(publisher);
+        val books = bookRepo.findAllById(publisherDTO.getPublishedBooks());
+        publisherRepo.save(publisherDTO.convertToEntity(books));
     }
 
     @Override
-    public Optional<PublisherResponseDTO> findById(long id) {
-        return publisherRepo.findById(id)
-                .map(Publisher::convertToResponseDto);
+    public PublisherShortDTO findById(long id) {
+        Publisher publisher = publisherRepo.findById(id).orElseThrow(()->new NotFoundException("There is no such publisher"));
+        return publisher.convertToResponseDto();
     }
 
     @Override
-    public List<PublisherResponseDTO> getByNameContaining(String name) {
+    public List<PublisherShortDTO> getByNameContaining(String name) {
         return publisherRepo.findByNameIsContainingIgnoreCase(name)
                 .stream()
                 .map(Publisher::convertToResponseDto)

@@ -1,6 +1,5 @@
 package com.company.FinalProject.dto.Book;
 
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.entity.Genre;
@@ -9,13 +8,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class BookDTO {
     private long id;
     private int price;

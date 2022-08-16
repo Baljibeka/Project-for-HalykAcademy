@@ -1,11 +1,13 @@
 package com.company.FinalProject.services.implementations;
 
 import com.company.FinalProject.dto.Author.AuthorDTO;
-import com.company.FinalProject.dto.Author.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorFullDTO;
 import com.company.FinalProject.dto.Author.AuthorShortDTO;
 import com.company.FinalProject.entity.Author;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.entity.Genre;
+import com.company.FinalProject.exception.EnabledBookException;
+import com.company.FinalProject.exception.NotFoundException;
 import com.company.FinalProject.repo.AuthorRepository;
 import com.company.FinalProject.repo.BookRepository;
 import com.company.FinalProject.services.AuthorService;
@@ -26,18 +28,20 @@ public class AuthorServiceImpl implements AuthorService {
         this.bookRepo = bookRepo;
     }
 
-    public void create(AuthorDTO authorDTO) {
-        val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
-        Author author = authorDTO.convertToEntity(books);
-        authorRepo.save(author).convertToResponseDTO();
+    public void create(AuthorShortDTO authorShortDTO) {
+        Author author = authorShortDTO.convertToEntity();
+        authorRepo.save(author);
     }
 
     public void delete(long id) {
+        Author author = authorRepo.findById(id).orElseThrow(()->new NotFoundException("There is no such author"));
         authorRepo.deleteById(id);
     }
 
     public void update(AuthorDTO authorDTO) {
         val books = bookRepo.findAllById(authorDTO.getAuthorsBooksList());
+        if(books.size()!=authorDTO.getAuthorsBooksList().size())
+            throw new NotFoundException("Oops! There is something not found!");
         Author author = authorDTO.convertToEntity(books);
         authorRepo.save(author);
     }
@@ -51,24 +55,24 @@ public class AuthorServiceImpl implements AuthorService {
         }
     }
     @Override
-    public AuthorResponseDTO findById(long id) {
-        Author author = authorRepo.findById(id).orElseThrow();
+    public AuthorFullDTO findById(long id) {
+        Author author = authorRepo.findById(id).orElseThrow(()-> new NotFoundException("There is no such author"));
         addingGenres(author);
         return author.convertToResponseDTO();
     }
 
     @Override
-    public List<AuthorResponseDTO> findByFIO(String name) {
+    public List<AuthorShortDTO> findByFIO(String name) {
         String fio="%" + name + "%";
         List<Author> authors = authorRepo.findByFIO(fio, fio, fio);
         for(Author author:authors) {
             addingGenres(author);
         }
-        return authors.stream().map(Author::convertToResponseDTO).collect(Collectors.toList());
+        return authors.stream().map(Author::convertToShortDTO).collect(Collectors.toList());
     }
 
     @Override
-    public List<AuthorResponseDTO> getAll(){
+    public List<AuthorFullDTO> getAll(){
         List<Author> authors = authorRepo.findAll();
         for(Author author:authors){
             addingGenres(author);

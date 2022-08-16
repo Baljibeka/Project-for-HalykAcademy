@@ -1,318 +1,1221 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  description: ""
-  version: "1.0.0"
-  title: "Swagger Bookstore"
+  description: '"Swagger configuration for application "'
+  version: 1.1.0
+  title: Bookstore - Spring Boot Swagger Configuration
+#  contact:
+#    name: Bookstore
+#    url: https://www.youtube.com/channel/UCMpJ8m1w9t7EFcF9x8rs02A
+#    email: baljibeka@gmail.com
+#  license:
+#    name: Apache 2.0
+#    url: https://www.apache.org/licenses/LICENSE-2.0"
+host: localhost:8080
+basePath: /
 tags:
-- name: "book"
-  description: "Everything about your Books"
-- name: "author"
-  description: "Everything about your Author"
-- name: "provider"
-  description: "Everything about your Provider"
-  
-schemes:
-- "https"
+  - name: author-controller
+    description: Author Controller
+  - name: book-controller
+    description: Book Controller
+  - name: genre-controller
+    description: Genre Controller
+  - name: order-controller
+    description: Order Controller
+  - name: publisher-controller
+    description: Publisher Controller
+  - name: user-controller
+    description: User Controller
 paths:
-  /book:
-    post:
-      tags:
-      - "book"
-      summary: "Add a new book to the store"
-      description: ""
-      operationId: "addBook"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Author object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Book"
-      responses:
-        "405":
-          description: "Invalid input"
-          
-  /book/{bookID}:
+  /authors:
     get:
       tags:
-      - "book"
-      summary: "Find book by ID"
-      description: "Returns a single book"
-      operationId: "getBookById"
+        - author-controller
+      summary: getAll
+      operationId: getAllUsingGET
       produces:
-      - "application/json"
-      parameters:
-      - name: "bookID"
-        in: "path"
-        description: "ID of book to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - '*/*'
       responses:
-        "200":
-          description: "successful operation"
+        '200':
+          description: OK
           schema:
-            $ref: "#/definitions/Book"
-        "404":
-          description: "Book not found"
-      
+            type: array
+            items:
+              $ref: '#/definitions/AuthorFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /authors/author:
+    post:
+      tags:
+        - author-controller
+      summary: save
+      operationId: saveUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: authorShortDTO
+          description: authorShortDTO
+          required: true
+          schema:
+            $ref: '#/definitions/AuthorShortDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       tags:
-      - "book"
-      summary: "Updates a book in the store with form data"
-      description: ""
-      operationId: "updateBookWithForm"
+        - author-controller
+      summary: updateBook
+      operationId: updateBookUsingPUT
       consumes:
-      - "application/x-www-form-urlencoded"
+        - application/json
       produces:
-      - "application/json"
+        - '*/*'
       parameters:
-      - name: "bookID"
-        in: "path"
-        description: "ID of book that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "title"
-        in: "formData"
-        description: "Updated title of the book"
-        required: false
-        type: "string"
-      - name: "publisher"
-        in: "formData"
-        description: "Updated publisher of the book"
-        required: false
-        type: "integer"
-      - name: "numOfPages"
-        in: "formData"
-        description: "Updated number of pages of the book"
-        required: false
-        type: "integer"
-      - name: "year"
-        in: "formData"
-        description: "Updated year of the book"
-        required: false
-        type: "integer"
-      responses:
-        "200":
-          description: "successful operation"
+        - in: body
+          name: authorDTO
+          description: authorDTO
+          required: true
           schema:
-            $ref: "#/definitions/Book"
-        "405":
-          description: "Invalid input"
-
+            $ref: '#/definitions/AuthorDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /authors/author/genre/{genreName}:
+    get:
+      tags:
+        - author-controller
+      summary: getAuthorByGenreName
+      operationId: getAuthorByGenreNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: genreName
+          in: path
+          description: genreName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/definitions/AuthorShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /authors/author/name/{authorName}:
+    get:
+      tags:
+        - author-controller
+      summary: getAuthorByName
+      operationId: getAuthorByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: authorName
+          in: path
+          description: authorName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AuthorShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /authors/author/{authorID}:
+    get:
+      tags:
+        - author-controller
+      summary: getAuthorById
+      operationId: getAuthorByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: authorID
+          in: path
+          description: authorID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/AuthorFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     delete:
       tags:
-      - "book"
-      summary: "Deletes a book"
-      description: ""
-      operationId: "deleteBook"
+        - author-controller
+      summary: deleteAuthorById
+      operationId: deleteAuthorByIdUsingDELETE
       produces:
-      - "application/json"
+        - '*/*'
       parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "bookID"
-        in: "path"
-        description: "Book id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: authorID
+          in: path
+          description: authorID
+          required: true
+          type: integer
+          format: int64
       responses:
-        "404":
-          description: "Book not found"
-      
-    
-  
-  /author:
-    post:
-      tags:
-      - "author"
-      summary: "Add a new author to the store"
-      description: ""
-      operationId: "addAuthor"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "Author object that needs to be added to the store"
-        required: true
-        schema:
-          $ref: "#/definitions/Author"
-      responses:
-        "405":
-          description: "Invalid input"
-    
-  
-          
-  /author/{authorID}:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /books:
     get:
       tags:
-      - "author"
-      summary: "Find author by ID"
-      description: "Returns a single author"
-      operationId: "getAuthorById"
+        - book-controller
+      summary: getAll
+      operationId: getAllUsingGET_1
       produces:
-      - "application/json"
-      parameters:
-      - name: "authorID"
-        in: "path"
-        description: "ID of author to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - '*/*'
       responses:
-        "200":
-          description: "successful operation"
+        '200':
+          description: OK
           schema:
-            $ref: "#/definitions/Author"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "Author not found"
-      
+            type: array
+            items:
+              $ref: '#/definitions/BookFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /books/book:
+    post:
+      tags:
+        - book-controller
+      summary: saveBook
+      operationId: saveBookUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: bookDTO
+          description: bookDTO
+          required: true
+          schema:
+            $ref: '#/definitions/BookDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/BookFullDTO'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       tags:
-      - "author"
-      summary: "Updates an author in the store with form data"
-      description: ""
-      operationId: "updateAuthorWithForm"
+        - book-controller
+      summary: updateBook
+      operationId: updateBookUsingPUT_1
       consumes:
-      - "application/x-www-form-urlencoded"
+        - application/json
       produces:
-      - "application/json"
+        - '*/*'
       parameters:
-      - name: "authorID"
-        in: "path"
-        description: "ID of author that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "name"
-        in: "formData"
-        description: "Updated name of the author"
-        required: false
-        type: "string"
-      - name: "surname"
-        in: "formData"
-        description: "Updated surname of the author"
-        required: false
-        type: "string"
-      - name: "dateOfBirth"
-        in: "formData"
-        description: "Updated date of birth of the author"
-        required: false
-        type: "string"
-        format: "date"
-      - name: "bookList"
-        in: "formData"
-        description: "Updated booklist of the author"
-        required: false
+        - in: body
+          name: bookDTO
+          description: bookDTO
+          required: true
+          schema:
+            $ref: '#/definitions/BookDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /books/book/genre/{genreName}:
+    get:
+      tags:
+        - book-controller
+      summary: getAuthorByGenreName
+      operationId: getAuthorByGenreNameUsingGET_1
+      produces:
+        - '*/*'
+      parameters:
+        - name: genreName
+          in: path
+          description: genreName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BookShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /books/book/name/{bookName}:
+    get:
+      tags:
+        - book-controller
+      summary: getBookByName
+      operationId: getBookByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: bookName
+          in: path
+          description: bookName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BookShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /books/book/{bookID}:
+    get:
+      tags:
+        - book-controller
+      summary: getBookById
+      operationId: getBookByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: bookID
+          in: path
+          description: bookID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/BookFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - book-controller
+      summary: deleteBookById
+      operationId: deleteBookByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: bookID
+          in: path
+          description: bookID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /genres:
+    get:
+      tags:
+        - genre-controller
+      summary: getAll
+      operationId: getAllUsingGET_2
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/GenreDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /genres/genre:
+    post:
+      tags:
+        - genre-controller
+      summary: create
+      operationId: createUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: genreDTO
+          description: genreDTO
+          required: true
+          schema:
+            $ref: '#/definitions/GenreDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/GenreDTO'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - genre-controller
+      summary: update
+      operationId: updateUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: genreDTO
+          description: genreDTO
+          required: true
+          schema:
+            $ref: '#/definitions/GenreDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /genres/genre/{genreID}:
+    delete:
+      tags:
+        - genre-controller
+      summary: delete
+      operationId: deleteUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: genreID
+          in: path
+          description: genreID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /orders:
+    get:
+      tags:
+        - order-controller
+      summary: getAll
+      operationId: getAllUsingGET_3
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/OrderFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /orders/admin/order:
+    put:
+      tags:
+        - order-controller
+      summary: updateAdmin
+      operationId: updateAdminUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: orderAdminDTO
+          description: orderAdminDTO
+          required: true
+          schema:
+            $ref: '#/definitions/OrderAdminDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /orders/order:
+    post:
+      tags:
+        - order-controller
+      summary: create
+      operationId: createUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: orderDTO
+          description: orderDTO
+          required: true
+          schema:
+            $ref: '#/definitions/OrderDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - order-controller
+      summary: update
+      operationId: updateUsingPUT_1
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: orderDTO
+          description: orderDTO
+          required: true
+          schema:
+            $ref: '#/definitions/OrderDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /orders/order/{orderID}:
+    get:
+      tags:
+        - order-controller
+      summary: getByID
+      operationId: getByIDUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: orderID
+          in: path
+          description: orderID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/OrderFullDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - order-controller
+      summary: delete
+      operationId: deleteUsingDELETE_1
+      produces:
+        - '*/*'
+      parameters:
+        - name: orderID
+          in: path
+          description: orderID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /publishers:
+    get:
+      tags:
+        - publisher-controller
+      summary: getAll
+      operationId: getAllUsingGET_4
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PublisherShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /publishers/publisher:
+    post:
+      tags:
+        - publisher-controller
+      summary: savePublisher
+      operationId: savePublisherUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: publisherShortDTO
+          description: publisherShortDTO
+          required: true
+          schema:
+            $ref: '#/definitions/PublisherShortDTO'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PublisherShortDTO'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - publisher-controller
+      summary: updatePublisher
+      operationId: updatePublisherUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: publisherDTO
+          description: publisherDTO
+          required: true
+          schema:
+            $ref: '#/definitions/PublisherDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /publishers/publisher/name/{publisherName}:
+    get:
+      tags:
+        - publisher-controller
+      summary: getPublisherByName
+      operationId: getPublisherByNameUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: publisherName
+          in: path
+          description: publisherName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PublisherShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /publishers/publisher/{publisherID}:
+    get:
+      tags:
+        - publisher-controller
+      summary: getPublisherById
+      operationId: getPublisherByIdUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: publisherID
+          in: path
+          description: publisherID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/PublisherShortDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - publisher-controller
+      summary: deletePublisherById
+      operationId: deletePublisherByIdUsingDELETE
+      produces:
+        - '*/*'
+      parameters:
+        - name: publisherID
+          in: path
+          description: publisherID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /users:
+    get:
+      tags:
+        - user-controller
+      summary: getAll
+      operationId: getAllUsingGET_5
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /users/user:
+    post:
+      tags:
+        - user-controller
+      summary: create
+      operationId: createUsingPOST_2
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: userFullDTO
+          description: userFullDTO
+          required: true
+          schema:
+            $ref: '#/definitions/UserFullDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - user-controller
+      summary: update
+      operationId: updateUsingPUT_2
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: userFullDTO
+          description: userFullDTO
+          required: true
+          schema:
+            $ref: '#/definitions/UserFullDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /users/user/admin:
+    put:
+      tags:
+        - user-controller
+      summary: adminUpdate
+      operationId: adminUpdateUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: userAdminDTO
+          description: userAdminDTO
+          required: true
+          schema:
+            $ref: '#/definitions/UserAdminDTO'
+      responses:
+        '200':
+          description: OK
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /users/user/{userID}:
+    get:
+      tags:
+        - user-controller
+      summary: findByID
+      operationId: findByIDUsingGET
+      produces:
+        - '*/*'
+      parameters:
+        - name: userID
+          in: path
+          description: userID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/UserDTO'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - user-controller
+      summary: delete
+      operationId: deleteUsingDELETE_2
+      produces:
+        - '*/*'
+      parameters:
+        - name: userID
+          in: path
+          description: userID
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+definitions:
+  AuthorDTO:
+    type: object
+    properties:
+      authorsBooksList:
         type: array
         items:
-          type: "integer"
-      responses:
-        "405":
-          description: "Invalid input"
-
-    delete:
-      tags:
-      - "author"
-      summary: "Deletes an author"
-      description: ""
-      operationId: "delete"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "authorID"
-        in: "path"
-        description: "Author id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "404":
-          description: "Author not found"
- 
-  
-definitions:
-  Author:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-      surname:
-        type: "string"
-        format: "byte"
-      name:
-        type: "string"
-        format: "byte"
-      patronymic:
-        type: "string"
-        format: "byte"
+          type: integer
+          format: int64
       dateOfBirth:
-        type: "string"
-        format: "date"
-      bookList:
-        type: "array"
-        items:
-          $ref: "#/definitions/Book"
-          
-  Publisher:
-    type: "object"
-    properties:
+        type: string
+        format: date
       id:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
       name:
-        type: "string"
-        format: "byte"
-      bookList:
-        type: "array"
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    title: AuthorDTO
+  AuthorFullDTO:
+    type: object
+    properties:
+      booksList:
+        type: array
         items:
-          $ref: "#/definitions/Book"    
-          
-  Book:
-    type: "object"
+          $ref: '#/definitions/BookShortDTO'
+      dateOfBirth:
+        type: string
+        format: date
+      genreList:
+        type: array
+        items:
+          $ref: '#/definitions/GenreDTO'
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    title: AuthorFullDTO
+  AuthorShortDTO:
+    type: object
+    properties:
+      dateOfBirth:
+        type: string
+        format: date
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    title: AuthorShortDTO
+  BookDTO:
+    type: object
+    properties:
+      authorList:
+        type: array
+        items:
+          type: integer
+          format: int64
+      genreList:
+        type: array
+        items:
+          type: integer
+          format: int64
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      numberOfPages:
+        type: integer
+        format: int32
+      price:
+        type: integer
+        format: int32
+      publisherId:
+        type: integer
+        format: int64
+      yearOfIssue:
+        type: string
+        format: date
+    title: BookDTO
+  BookFullDTO:
+    type: object
+    properties:
+      authorsList:
+        type: array
+        items:
+          $ref: '#/definitions/AuthorShortDTO'
+      genreList:
+        type: array
+        items:
+          $ref: '#/definitions/GenreDTO'
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      numberOfPages:
+        type: integer
+        format: int32
+      price:
+        type: integer
+        format: int32
+      publisher:
+        $ref: '#/definitions/PublisherShortDTO'
+      yearOfIssue:
+        type: string
+        format: date
+    title: BookFullDTO
+  BookShortDTO:
+    type: object
     properties:
       id:
-        type: "integer"
-        format: "int64"
+        type: integer
+        format: int64
+      name:
+        type: string
       price:
-        type: "number"
-        format: "double"
-      authorList:
-        type: "array"
+        type: integer
+        format: int32
+    title: BookShortDTO
+  GenreDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    title: GenreDTO
+  OrderAdminDTO:
+    type: object
+    properties:
+      books:
+        type: array
         items:
-          $ref: "#/definitions/Author"
-      publisher:
-        $ref: "#/definitions/Publisher"
-      title:
-        type: "integer"
-        format: "int64"
-      numOfPages:
-        type: "integer"
-        format: "int64"
-      year:
-        type: "integer"
-        format: "int64"
-      
- 
-
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+          type: integer
+          format: int64
+      createdAt:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int64
+      status:
+        type: string
+        enum:
+          - CANCELLED
+          - CREATED
+          - DONE
+          - IN_PROCESS
+      user:
+        type: integer
+        format: int64
+    title: OrderAdminDTO
+  OrderDTO:
+    type: object
+    properties:
+      books:
+        type: array
+        items:
+          type: integer
+          format: int64
+      createdAt:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int64
+      user:
+        type: integer
+        format: int64
+    title: OrderDTO
+  OrderFullDTO:
+    type: object
+    properties:
+      books:
+        type: array
+        items:
+          $ref: '#/definitions/BookShortDTO'
+      createdAt:
+        type: string
+        format: date-time
+      id:
+        type: integer
+        format: int64
+      status:
+        type: string
+        enum:
+          - CANCELLED
+          - CREATED
+          - DONE
+          - IN_PROCESS
+      user:
+        $ref: '#/definitions/UserDTO'
+    title: OrderFullDTO
+  PublisherDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+      publishedBooks:
+        type: array
+        items:
+          type: integer
+          format: int64
+    title: PublisherDTO
+  PublisherShortDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      name:
+        type: string
+    title: PublisherShortDTO
+  UserAdminDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      isBlocked:
+        type: boolean
+      role:
+        type: string
+        enum:
+          - ADMIN
+          - USER
+    title: UserAdminDTO
+  UserDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      login:
+        type: string
+      role:
+        type: string
+        enum:
+          - ADMIN
+          - USER
+    title: UserDTO
+  UserFullDTO:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
+      login:
+        type: string
+      password:
+        type: string
+    title: UserFullDTO

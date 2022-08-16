@@ -27,7 +27,7 @@ public class GenreController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/genre/{genreID}")
-    public void delete(@PathVariable("genreID") long id){
+    public void delete(@PathVariable("genreID") Long id){
         genreService.delete(id);
     }
 

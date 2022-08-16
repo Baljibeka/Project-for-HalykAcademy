@@ -2,7 +2,7 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.User.UserAdminDTO;
 import com.company.FinalProject.dto.User.UserDTO;
-import com.company.FinalProject.dto.User.UserResponseDTO;
+import com.company.FinalProject.dto.User.UserFullDTO;
 import lombok.*;
 import javax.persistence.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @RequiredArgsConstructor
 @Table(name="users")
-public class User { //заимплементить от юзердетэйлс
+public class User {
     @Id
     @SequenceGenerator(
         name="user_sequence",
@@ -63,12 +63,12 @@ public class User { //заимплементить от юзердетэйлс
         return userDTO;
     }
 
-    public UserResponseDTO convertToResponseDTO(){
-        UserResponseDTO userResponseDTO=new UserResponseDTO();
-        userResponseDTO.setId(this.getId());
-        userResponseDTO.setPassword(this.getPassword());
-        userResponseDTO.setLogin(this.getLogin());
-        return userResponseDTO;
+    public UserFullDTO convertToResponseDTO(){
+        UserFullDTO userFullDTO =new UserFullDTO();
+        userFullDTO.setId(this.getId());
+        userFullDTO.setPassword(this.getPassword());
+        userFullDTO.setLogin(this.getLogin());
+        return userFullDTO;
     }
     public UserAdminDTO convertToEntity(){
         UserAdminDTO userAdminDTO = new UserAdminDTO();

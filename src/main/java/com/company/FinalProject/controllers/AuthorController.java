@@ -1,7 +1,7 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.Author.AuthorDTO;
-import com.company.FinalProject.dto.Author.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorFullDTO;
 import com.company.FinalProject.dto.Author.AuthorShortDTO;
 import com.company.FinalProject.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -26,19 +24,19 @@ public class AuthorController {
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping
-    public List<AuthorResponseDTO> getAll() {
+    public List<AuthorFullDTO> getAll() {
         return authorService.getAll();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/author/{authorID}")
-    public AuthorResponseDTO getAuthorById(@PathVariable("authorID") long id) {
+    public AuthorFullDTO getAuthorById(@PathVariable("authorID") long id) {
         return authorService.findById(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/author/name/{authorName}")
-    public List<AuthorResponseDTO> getAuthorByName(@PathVariable("authorName") String name) {
+    public List<AuthorShortDTO> getAuthorByName(@PathVariable("authorName") String name) {
         return authorService.findByFIO(name);
     }
 
@@ -57,8 +55,8 @@ public class AuthorController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/author")
-    public void save(@RequestBody AuthorDTO authorDTO) throws Exception {
-        authorService.create(authorDTO);
+    public void save(@RequestBody AuthorShortDTO authorShortDTO){
+        authorService.create(authorShortDTO);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

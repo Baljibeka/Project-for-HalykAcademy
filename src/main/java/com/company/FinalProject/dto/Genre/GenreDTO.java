@@ -4,10 +4,6 @@ import com.company.FinalProject.entity.Genre;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class GenreDTO {
     private long id;
     private String name;

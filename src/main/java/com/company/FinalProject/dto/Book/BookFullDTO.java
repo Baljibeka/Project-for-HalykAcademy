@@ -1,9 +1,8 @@
 package com.company.FinalProject.dto.Book;
 
-import com.company.FinalProject.dto.Author.AuthorResponseDTO;
 import com.company.FinalProject.dto.Author.AuthorShortDTO;
 import com.company.FinalProject.dto.Genre.GenreDTO;
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherShortDTO;
 import com.company.FinalProject.entity.Book;
 
 import java.time.LocalDate;
@@ -12,11 +11,11 @@ import java.util.List;
 import lombok.*;
 
 @Data
-public class BookResponseDTO {
+public class BookFullDTO {
 
     private long id;
     private int price;
-    private PublisherResponseDTO publisher;
+    private PublisherShortDTO publisher;
     private String name;
     private int numberOfPages;
     private LocalDate yearOfIssue;
@@ -24,7 +23,7 @@ public class BookResponseDTO {
     private List<GenreDTO> genreList;
 
     public Book convertToEntity(){
-        Book book=new Book();
+        Book book = new Book();
         book.setName(this.getName());
         book.setPublisher(this.getPublisher().convertToEntity());
         book.setPrice(this.getPrice());

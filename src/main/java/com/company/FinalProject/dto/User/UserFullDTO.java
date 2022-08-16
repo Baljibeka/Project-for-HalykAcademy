@@ -4,9 +4,9 @@ import com.company.FinalProject.entity.User;
 import com.company.FinalProject.entity.UserRole;
 import lombok.*;
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
-public class UserResponseDTO {
+@RequiredArgsConstructor
+public class UserFullDTO {
     private long id;
     private String login;
     private String password;

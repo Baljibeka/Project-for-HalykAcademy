@@ -1,19 +1,13 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Genre.GenreDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="genre")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class Genre {
     @Id
     @SequenceGenerator(

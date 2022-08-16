@@ -11,12 +11,8 @@ import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.entity.Genre;
 import lombok.*;
 
-
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class AuthorResponseDTO {
+public class AuthorFullDTO {
     private long id;
     private String surname;
     private String name;

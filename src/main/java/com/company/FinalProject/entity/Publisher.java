@@ -1,7 +1,7 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Publisher.PublisherDTO;
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherShortDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +26,8 @@ public class Publisher {
     private String name;
     @OneToMany(mappedBy = "publisher")
     private List<Book> publishedBooksList;
+    @Column(name="is_blocked")
+    private Boolean isBlocked;
 
     public PublisherDTO convertToDto() {
         PublisherDTO publisherDTO = new PublisherDTO();
@@ -35,10 +37,10 @@ public class Publisher {
         return publisherDTO;
     }
 
-    public PublisherResponseDTO convertToResponseDto() {
-        PublisherResponseDTO publisherResponseDTO = new PublisherResponseDTO();
-        publisherResponseDTO.setName(this.getName());
-        publisherResponseDTO.setId(this.getId());
-        return publisherResponseDTO;
+    public PublisherShortDTO convertToResponseDto() {
+        PublisherShortDTO publisherShortDTO = new PublisherShortDTO();
+        publisherShortDTO.setName(this.getName());
+        publisherShortDTO.setId(this.getId());
+        return publisherShortDTO;
     }
 }

@@ -2,15 +2,15 @@ package com.company.FinalProject.services;
 
 
 import com.company.FinalProject.dto.Publisher.PublisherDTO;
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherShortDTO;
 
 import java.util.List;
-import java.util.Optional;
+
 public interface PublisherService {
-    public List<PublisherResponseDTO> getAll();
-    public PublisherResponseDTO create(PublisherDTO publisherDTO);
+    public List<PublisherShortDTO> getAll();
+    public PublisherShortDTO create(PublisherShortDTO publisherShortDTO);
     public void delete(long id);
     public void update(PublisherDTO publisherDTO);
-    public Optional<PublisherResponseDTO> findById(long id);
-    List<PublisherResponseDTO> getByNameContaining(String name);
+    public PublisherShortDTO findById(long id);
+    List<PublisherShortDTO> getByNameContaining(String name);
 }

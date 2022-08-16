@@ -14,9 +14,9 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
             select * 
             from author a where lower(a.name) like lower(:name)
             or lower(a.surname) like lower(:surname) 
-             or lower(a.patronymic) like lower(:lastname)
+             or lower(a.patronymic) like lower(:patronymic)
              """, nativeQuery = true)
-    List<Author> findByFIO(String name, String surname, String lastname);
+    List<Author> findByFIO(String name, String surname, String patronymic);
 
     @Query(value = """
                         SELECT *

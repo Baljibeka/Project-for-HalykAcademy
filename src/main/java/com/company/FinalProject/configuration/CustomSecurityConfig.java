@@ -1,6 +1,8 @@
 package com.company.FinalProject.configuration;
 
+import com.company.FinalProject.exception.MyBasicAuthenticationEntryPoint;
 import com.company.FinalProject.repo.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,24 +19,17 @@ public class CustomSecurityConfig {
         return new UserDetailsServiceImpl(userRepo);
     }
 
+    @Autowired
+    private MyBasicAuthenticationEntryPoint myBasicAuthenticationEntryPoint;
+
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/orders").permitAll()
-//                .antMatchers("/orders/order/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/authors").permitAll()
-                .antMatchers("/authors/author/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/books").permitAll()
-                .antMatchers("/books/book/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/genres").permitAll()
-                .antMatchers("/genres/genre/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/publishers").permitAll()
-                .antMatchers("publishers/publisher/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/users").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().formLogin()
-                .and().httpBasic();
+                .and().httpBasic()
+         .authenticationEntryPoint(myBasicAuthenticationEntryPoint);
         return http.build();
     }
 }

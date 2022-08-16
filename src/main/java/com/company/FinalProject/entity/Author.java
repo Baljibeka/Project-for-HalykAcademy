@@ -1,9 +1,7 @@
 package com.company.FinalProject.entity;
 
-import com.company.FinalProject.dto.Author.AuthorDTO;
-import com.company.FinalProject.dto.Author.AuthorResponseDTO;
+import com.company.FinalProject.dto.Author.AuthorFullDTO;
 import com.company.FinalProject.dto.Author.AuthorShortDTO;
-import com.company.FinalProject.dto.Book.BookShortDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -47,16 +45,16 @@ public class Author {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> authorsBooksList;
 
-    public AuthorResponseDTO convertToResponseDTO(){
-        AuthorResponseDTO authorResponseDTO=new AuthorResponseDTO();
-        authorResponseDTO.setId(this.getId());
-        authorResponseDTO.setName(this.getName());
-        authorResponseDTO.setSurname(this.getSurname());
-        authorResponseDTO.setPatronymic(this.getPatronymic());
-        authorResponseDTO.setDateOfBirth(this.getDateOfBirth());
-        authorResponseDTO.setBooksList(this.getAuthorsBooksList().stream().map(Book::convertToShortDTO).toList());
-        authorResponseDTO.setGenreList(this.getGenresList().stream().map(Genre::convertToDto).toList());
-        return authorResponseDTO;
+    public AuthorFullDTO convertToResponseDTO(){
+        AuthorFullDTO authorFullDTO =new AuthorFullDTO();
+        authorFullDTO.setId(this.getId());
+        authorFullDTO.setName(this.getName());
+        authorFullDTO.setSurname(this.getSurname());
+        authorFullDTO.setPatronymic(this.getPatronymic());
+        authorFullDTO.setDateOfBirth(this.getDateOfBirth());
+        authorFullDTO.setBooksList(this.getAuthorsBooksList().stream().map(Book::convertToShortDTO).toList());
+        authorFullDTO.setGenreList(this.getGenresList().stream().map(Genre::convertToDto).toList());
+        return authorFullDTO;
     }
     public AuthorShortDTO convertToShortDTO(){
         AuthorShortDTO authorShortDTO = new AuthorShortDTO();
@@ -64,6 +62,7 @@ public class Author {
         authorShortDTO.setName(this.getName());
         authorShortDTO.setPatronymic(this.getPatronymic());
         authorShortDTO.setSurname(this.getSurname());
+        authorShortDTO.setDateOfBirth(this.getDateOfBirth());
         return authorShortDTO;
     }
 }

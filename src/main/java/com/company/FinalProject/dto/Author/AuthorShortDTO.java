@@ -3,12 +3,15 @@ package com.company.FinalProject.dto.Author;
 import com.company.FinalProject.entity.Author;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class AuthorShortDTO {
     private long id;
     private String surname;
     private String name;
     private String patronymic;
+    private LocalDate dateOfBirth;;
 
     public Author convertToEntity(){
         Author author=new Author();
@@ -16,6 +19,7 @@ public class AuthorShortDTO {
         author.setId(this.getId());
         author.setPatronymic(this.getPatronymic());
         author.setSurname(this.getSurname());
+        author.setDateOfBirth(this.getDateOfBirth());
         return author;
     }
 }

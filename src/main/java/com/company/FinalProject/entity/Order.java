@@ -2,17 +2,13 @@ package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Order.OrderAdminDTO;
 import com.company.FinalProject.dto.Order.OrderDTO;
-import com.company.FinalProject.dto.Order.OrderResponseDTO;
-import lombok.AllArgsConstructor;
+import com.company.FinalProject.dto.Order.OrderFullDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -80,13 +76,13 @@ public class Order {
         orderAdminDTO.setUser(this.getUser().getId());
         return orderAdminDTO;
     }
-    public OrderResponseDTO convertToResponseDTO(){
-        OrderResponseDTO orderResponseDTO=new OrderResponseDTO();
-        orderResponseDTO.setId(this.getId());
-        orderResponseDTO.setBooks(this.getBooks().stream().map(Book::convertToResponseDto).toList());
-        orderResponseDTO.setStatus(this.getStatus());
-        orderResponseDTO.setUser(this.getUser().convertToDTO());
-        orderResponseDTO.setCreatedAt(this.getCreatedAt());
-        return orderResponseDTO;
+    public OrderFullDTO convertToResponseDTO(){
+        OrderFullDTO orderFullDTO =new OrderFullDTO();
+        orderFullDTO.setId(this.getId());
+        orderFullDTO.setBooks(this.getBooks().stream().map(Book::convertToShortDTO).toList());
+        orderFullDTO.setStatus(this.getStatus());
+        orderFullDTO.setUser(this.getUser().convertToDTO());
+        orderFullDTO.setCreatedAt(this.getCreatedAt());
+        return orderFullDTO;
     }
 }

@@ -13,11 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class OrderDTO {
     private long id;
     private Long user;

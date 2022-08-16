@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class AuthorDTO {
     private long id;
     private String surname;

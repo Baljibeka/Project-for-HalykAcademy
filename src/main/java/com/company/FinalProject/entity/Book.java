@@ -1,7 +1,7 @@
 package com.company.FinalProject.entity;
 
 import com.company.FinalProject.dto.Book.BookDTO;
-import com.company.FinalProject.dto.Book.BookResponseDTO;
+import com.company.FinalProject.dto.Book.BookFullDTO;
 import com.company.FinalProject.dto.Book.BookShortDTO;
 import lombok.*;
 
@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 @Entity
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "BOOK")
 public class Book {
     @Id
@@ -47,6 +49,9 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private List<Genre> booksGenresList;
+    @Column(name="is_enabled")
+    private Boolean isEnabled;
+
 
     public BookDTO convertToDto() {
         BookDTO bookDto = new BookDTO();
@@ -61,17 +66,17 @@ public class Book {
         return bookDto;
     }
 
-    public BookResponseDTO convertToResponseDto() {
-        BookResponseDTO bookResponseDTO = new BookResponseDTO();
-        bookResponseDTO.setName(this.getName());
-        bookResponseDTO.setId(this.getId());
-        bookResponseDTO.setPrice(this.getPrice());
-        bookResponseDTO.setPublisher(this.getPublisher().convertToResponseDto());
-        bookResponseDTO.setNumberOfPages(this.getNumberOfPages());
-        bookResponseDTO.setYearOfIssue(this.getYearOfIssue());
-        bookResponseDTO.setAuthorsList(this.getAuthorList().stream().map(Author::convertToShortDTO).toList());
-        bookResponseDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
-        return bookResponseDTO;
+    public BookFullDTO convertToResponseDto() {
+        BookFullDTO bookFullDTO = new BookFullDTO();
+        bookFullDTO.setName(this.getName());
+        bookFullDTO.setId(this.getId());
+        bookFullDTO.setPrice(this.getPrice());
+        bookFullDTO.setPublisher(this.getPublisher().convertToResponseDto());
+        bookFullDTO.setNumberOfPages(this.getNumberOfPages());
+        bookFullDTO.setYearOfIssue(this.getYearOfIssue());
+        bookFullDTO.setAuthorsList(this.getAuthorList().stream().map(Author::convertToShortDTO).toList());
+        bookFullDTO.setGenreList(this.getBooksGenresList().stream().map(Genre::convertToDto).toList());
+        return bookFullDTO;
     }
     public BookShortDTO convertToShortDTO(){
         BookShortDTO bookShortDTO = new BookShortDTO();

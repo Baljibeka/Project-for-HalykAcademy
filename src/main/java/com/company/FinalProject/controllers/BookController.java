@@ -1,15 +1,14 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.Book.BookDTO;
-import com.company.FinalProject.dto.Book.BookResponseDTO;
+import com.company.FinalProject.dto.Book.BookFullDTO;
+import com.company.FinalProject.dto.Book.BookShortDTO;
 import com.company.FinalProject.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/books")
@@ -23,26 +22,26 @@ public class BookController {
     }
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public List<BookResponseDTO> getAll(){
+    public List<BookFullDTO> getAll(){
         return bookService.getAll();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book/{bookID}")
-    public Optional<BookResponseDTO> getBookById(@PathVariable("bookID") long id)
+    public BookFullDTO getBookById(@PathVariable("bookID") long id)
     {
         return bookService.findById(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book/name/{bookName}")
-    public List<BookResponseDTO> getBookByName(@PathVariable("bookName") String name) {
+    public List<BookShortDTO> getBookByName(@PathVariable("bookName") String name) {
         return bookService.getByNameContaining(name);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/book/genre/{genreName}")
-    public List<BookResponseDTO> getAuthorByGenreName(@PathVariable("genreName") String genreName)
+    public List<BookShortDTO> getAuthorByGenreName(@PathVariable("genreName") List<String> genreName)
     {
         return bookService.getByGenreName(genreName);
 
@@ -57,7 +56,7 @@ public class BookController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/book")
-    public BookResponseDTO saveBook(@RequestBody BookDTO bookDTO){
+    public BookFullDTO saveBook(@RequestBody BookDTO bookDTO){
         return bookService.create(bookDTO);
     }
 

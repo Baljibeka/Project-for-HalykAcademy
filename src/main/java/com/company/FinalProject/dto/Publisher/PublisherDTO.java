@@ -1,6 +1,5 @@
 package com.company.FinalProject.dto.Publisher;
 
-import com.company.FinalProject.dto.Book.BookResponseDTO;
 import com.company.FinalProject.entity.Book;
 import com.company.FinalProject.entity.Publisher;
 import lombok.*;
@@ -8,11 +7,6 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 public class PublisherDTO {
     private long id;
 

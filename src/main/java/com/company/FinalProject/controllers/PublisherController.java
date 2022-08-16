@@ -1,15 +1,13 @@
 package com.company.FinalProject.controllers;
 
 import com.company.FinalProject.dto.Publisher.PublisherDTO;
-import com.company.FinalProject.dto.Publisher.PublisherResponseDTO;
+import com.company.FinalProject.dto.Publisher.PublisherShortDTO;
 import com.company.FinalProject.services.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/publishers")
@@ -23,20 +21,20 @@ public class PublisherController {
 
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping
-    public List<PublisherResponseDTO> getAll(){
+    public List<PublisherShortDTO> getAll(){
         return publisherService.getAll();
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/publisher/{publisherID}")
-    public Optional<PublisherResponseDTO> getPublisherById(@PathVariable("publisherID") long id)
+    public PublisherShortDTO getPublisherById(@PathVariable("publisherID") long id)
     {
         return publisherService.findById(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/publisher/name/{publisherName}")
-    public List<PublisherResponseDTO> getPublisherByName(@PathVariable("publisherName") String name) {
+    public List<PublisherShortDTO> getPublisherByName(@PathVariable("publisherName") String name) {
         return publisherService.getByNameContaining(name);
     }
 
@@ -49,9 +47,9 @@ public class PublisherController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/publisher")
-    public PublisherResponseDTO savePublisher(@RequestBody PublisherDTO publisherDTO)
+    public PublisherShortDTO savePublisher(@RequestBody PublisherShortDTO publisherShortDTO)
     {
-        return publisherService.create(publisherDTO);
+        return publisherService.create(publisherShortDTO);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
