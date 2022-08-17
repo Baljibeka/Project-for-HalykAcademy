@@ -37,6 +37,7 @@ public class BookServiceImpl implements BookService {
         val publisher=publisherRepo.findById(bookDTO.getPublisherId()).orElseThrow();
             if(publisher.getIsBlocked()) throw new NotFoundException("Publisher is deleted");
         Book book = bookDTO.convertToEntity(publisher, genres, authors);
+        book.setIsEnabled(true);
         Book bookCreated = bookRepo.save(book);
         return bookCreated.convertToResponseDto();
     }
@@ -70,6 +71,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookFullDTO findById(long id) {
         Book book =bookRepo.findById(id).orElseThrow(()-> new NotFoundException("There is no such book"));
+        if(!book.getIsEnabled()) throw new NotFoundException("No book found");
         return book.convertToResponseDto();
     }
 

@@ -28,19 +28,19 @@ public class AuthorController {
         return authorService.getAll();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/author/{authorID}")
     public AuthorFullDTO getAuthorById(@PathVariable("authorID") long id) {
         return authorService.findById(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/author/name/{authorName}")
     public List<AuthorShortDTO> getAuthorByName(@PathVariable("authorName") String name) {
         return authorService.findByFIO(name);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/author/genre/{genreName}")
     public Set<AuthorShortDTO> getAuthorByGenreName(@PathVariable("genreName") List<String> genreName)
     {

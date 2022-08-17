@@ -26,20 +26,20 @@ public class BookController {
         return bookService.getAll();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/book/{bookID}")
     public BookFullDTO getBookById(@PathVariable("bookID") long id)
     {
         return bookService.findById(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/book/name/{bookName}")
     public List<BookShortDTO> getBookByName(@PathVariable("bookName") String name) {
         return bookService.getByNameContaining(name);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/book/genre/{genreName}")
     public List<BookShortDTO> getAuthorByGenreName(@PathVariable("genreName") List<String> genreName)
     {

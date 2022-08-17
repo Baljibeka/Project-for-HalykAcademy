@@ -31,7 +31,9 @@ public class PublisherServiceImpl implements PublisherService {
 
     @Override
     public PublisherShortDTO create(PublisherShortDTO publisherShortDTO) {
-        return publisherRepo.save(publisherShortDTO.convertToEntity()).convertToResponseDto();
+        Publisher publisher = publisherShortDTO.convertToEntity();
+        publisher.setIsBlocked(false);
+        return publisherRepo.save(publisher).convertToResponseDto();
     }
 
     @Override
@@ -44,12 +46,15 @@ public class PublisherServiceImpl implements PublisherService {
     @Override
     public void update(PublisherDTO publisherDTO) {
         val books = bookRepo.findAllById(publisherDTO.getPublishedBooks());
-        publisherRepo.save(publisherDTO.convertToEntity(books));
+        Publisher publisher =publisherDTO.convertToEntity(books);
+        publisher.setIsBlocked(publisherRepo.findById(publisher.getId()).orElseThrow(()->new NotFoundException("There is no such publisher")).getIsBlocked());
+        publisherRepo.save(publisher);
     }
 
     @Override
     public PublisherShortDTO findById(long id) {
         Publisher publisher = publisherRepo.findById(id).orElseThrow(()->new NotFoundException("There is no such publisher"));
+        if(publisher.getIsBlocked()) throw new NotFoundException("No publisher");
         return publisher.convertToResponseDto();
     }
 

@@ -25,14 +25,14 @@ public class PublisherController {
         return publisherService.getAll();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/publisher/{publisherID}")
     public PublisherShortDTO getPublisherById(@PathVariable("publisherID") long id)
     {
         return publisherService.findById(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/publisher/name/{publisherName}")
     public List<PublisherShortDTO> getPublisherByName(@PathVariable("publisherName") String name) {
         return publisherService.getByNameContaining(name);

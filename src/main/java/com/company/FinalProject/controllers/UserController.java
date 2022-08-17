@@ -49,7 +49,7 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/user/{userID}")
     public UserDTO findByID(@PathVariable("userID") long id){
         return userService.findByID(id);
